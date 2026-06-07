@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Mistly Fans | Mister Pro Mini + One-Click Cart</title>
+    <!-- Tailwind + Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #fafafc; }
+        .cart-badge { transition: all 0.2s ease; }
+        .product-card, .cart-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 20px 25px -12px rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #eef2f6; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased flex flex-col min-h-screen">
+
+    <!-- Simple Announcement Bar (kept for style, can be closed) -->
+    <div id="announcement-bar" class="bg-[#bd1d1d] text-white text-xs md:text-sm font-semibold py-2.5 px-4 relative z-50 flex items-center justify-center">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('shop')">
+            <span>⚡ NEW: Mister Pro Mini — Ultrathin mist + ultra cooling</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </div>
+        <button onclick="event.stopPropagation(); document.getElementById('announcement-bar').remove();" class="absolute right-4 p-1 hover:bg-white/10 rounded transition">✕</button>
+    </div>
+
+    <!-- Header with Navigation + CART ICON with badge -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-8 h-16 lg:h-20 flex items-center justify-between">
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex items-center space-x-7 text-sm font-medium text-slate-600">
+                <button onclick="navigateTo('home')" class="hover:text-black transition border-b-2 border-transparent hover:border-black pb-1">Home</button>
+                <button onclick="navigateTo('shop')" class="hover:text-black transition border-b-2 border-transparent hover:border-black pb-1">Shop Fans</button>
+                <button onclick="navigateTo('support')" class="hover:text-black transition border-b-2 border-transparent hover:border-black pb-1">Support</button>
+            </nav>
+            <!-- Mobile Toggle -->
+            <div class="md:hidden">
+                <button onclick="toggleMobileMenu()" class="text-slate-700"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+            </div>
+            <!-- Logo -->
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="navigateTo('home')">
+                <img src="Images/logo.png" alt="Mistly" class="h-7 w-7 object-contain" onerror="this.style.display='none'">
+                <span class="font-extrabold text-xl md:text-2xl tracking-tight">Mistly<span class="text-cyan-500">Fans</span><span class="text-[10px] align-super">™</span></span>
+            </div>
+            <!-- Right side: Cart icon with badge (click navigates to shop) -->
+            <div class="relative cursor-pointer group" onclick="navigateTo('shop')">
+                <div class="bg-slate-100 p-2 rounded-full hover:bg-slate-200 transition">
+                    <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 1.5M17 13l1.5 1.5M9 21h6M10 17h4"></path></svg>
+                </div>
+                <span id="cart-badge-header" class="cart-badge absolute -top-1 -right-1 bg-[#ec4899] text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm">0</span>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b px-5 pb-5 pt-2 space-y-3">
+            <button onclick="navigateTo('home'); toggleMobileMenu()" class="block w-full text-left font-semibold py-2">Home</button>
+            <button onclick="navigateTo('shop'); toggleMobileMenu()" class="block w-full text-left font-semibold py-2">Shop Fans</button>
+            <button onclick="navigateTo('support'); toggleMobileMenu()" class="block w-full text-left font-semibold py-2">Support</button>
+        </div>
+    </header>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-5 py-2.5 rounded-full shadow-xl text-sm font-medium transition-all duration-300 opacity-0 pointer-events-none translate-y-10">Message</div>
+
+    <main class="flex-grow">
+        <!-- ========== HOME VIEW (unchanged but functional) ========== -->
+        <section id="view-home" class="view-panel transition-opacity duration-300">
+            <div class="max-w-7xl mx-auto px-5 py-8 md:py-12">
+                <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl overflow-hidden shadow-xl p-8 md:p-12">
+                    <h1 class="text-3xl md:text-5xl font-black leading-tight">High Performance<br>Misting Fans.</h1>
+                    <p class="text-slate-300 text-lg mt-3 max-w-xl">Experience Mister Pro Mini — pocket-sized, premium mist cooling.</p>
+                    <button onclick="navigateTo('shop')" class="mt-6 bg-[#ec4899] hover:bg-pink-700 rounded-full px-6 py-3 font-bold transition flex items-center gap-2">Shop Now →</button>
+                </div>
+                <!-- tiny trust badges (clean) -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-14 text-center">
+                    <div class="bg-white p-3 rounded-xl shadow-sm"><span class="font-bold text-sm">🌬️ Ultra-Fine Mist</span><p class="text-xs text-slate-500">10 micron</p></div>
+                    <div class="bg-white p-3 rounded-xl shadow-sm"><span class="font-bold text-sm">🔇 Whisper Quiet</span><p class="text-xs text-slate-500">Brushless motor</p></div>
+                    <div class="bg-white p-3 rounded-xl shadow-sm"><span class="font-bold text-sm">⚡ 12H Battery</span><p class="text-xs text-slate-500">USB-C fast charge</p></div>
+                    <div class="bg-white p-3 rounded-xl shadow-sm"><span class="font-bold text-sm">🚚 Fast Shipping</span><p class="text-xs text-slate-500">24h dispatch</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SHOP VIEW: Mister Pro Mini + Cart (max 1 item) ========== -->
+        <section id="view-shop" class="view-panel hidden transition-opacity duration-300">
+            <div class="max-w-7xl mx-auto px-5 py-8 lg:py-12">
+                <!-- Shop header -->
+                <div class="mb-8 text-center lg:text-left">
+                    <span class="text-xs font-bold text-[#ec4899] bg-pink-50 px-3 py-1 rounded-full">🔥 Just Dropped</span>
+                    <h2 class="text-3xl lg:text-4xl font-black text-slate-900 mt-2">Mister Pro Mini</h2>
+                    <p class="text-slate-500 max-w-xl">The world’s most compact misting fan — rechargeable, portable, and refreshingly cool.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                    <!-- LEFT: Product Card -->
+                    <div class="product-card bg-white rounded-3xl border border-slate-100 shadow-md overflow-hidden">
+                        <div class="bg-gradient-to-br from-slate-50 to-white p-6 flex justify-center">
+                            <img src="Products/pr1.png" alt="Mister Pro Mini misting fan" class="w-72 h-72 object-contain drop-shadow-xl" onerror="this.src='https://placehold.co/400x400?text=Mister+Pro+Mini'; this.onerror=null;">
+                        </div>
+                        <div class="p-6 border-t border-slate-100">
+                            <div class="flex justify-between items-center flex-wrap gap-2 mb-3">
+                                <h3 class="text-2xl font-extrabold">Mister Pro Mini</h3>
+                                <span class="bg-emerald-100 text-emerald-800 text-sm font-bold px-3 py-1 rounded-full">$14.99 USD</span>
+                            </div>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-5">High-pressure mist nozzle + dual-speed fan. Fits in pocket, provides instant cooling relief for outdoor sports, travel, or desk. USB rechargeable with 180ml tank.</p>
+                            <div class="flex items-center justify-between border-t pt-4 border-slate-100">
+                                <div class="flex items-center gap-2 text-sm text-slate-500"><span>💧 30min continuous mist</span><span>🌀 2 speeds</span></div>
+                                <button id="add-to-cart-btn" class="bg-slate-900 hover:bg-black text-white font-bold py-3 px-8 rounded-full transition-all duration-200 shadow-md flex items-center gap-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: CART PANEL (only 1 product allowed) -->
+                    <div class="cart-card bg-white rounded-3xl border border-slate-100 shadow-md p-6 sticky top-24">
+                        <div class="flex items-center gap-2 border-b border-slate-100 pb-4 mb-5">
+                            <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 1.5M17 13l1.5 1.5M9 21h6M10 17h4"></path></svg>
+                            <h3 class="text-xl font-bold text-slate-800">Your Cart</h3>
+                            <span class="text-xs bg-slate-100 px-2 py-0.5 rounded-full ml-2">max 1 item</span>
+                        </div>
+                        <div id="cart-items-container" class="min-h-[180px]">
+                            <!-- empty cart default -->
+                            <div id="empty-cart-message" class="text-center py-8 text-slate-400 text-sm flex flex-col items-center gap-2">
+                                <svg class="w-10 h-10 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                <span>Cart is empty</span>
+                                <span class="text-[11px]">Add Mister Pro Mini above</span>
+                            </div>
+                            <div id="cart-filled-content" class="hidden">
+                                <div class="flex gap-4 items-center">
+                                    <img id="cart-product-img" src="Products/pr1.png" class="w-16 h-16 object-contain rounded-lg bg-slate-50 p-1" onerror="this.src='https://placehold.co/64'">
+                                    <div class="flex-1">
+                                        <h4 id="cart-product-name" class="font-bold text-slate-800">Mister Pro Mini</h4>
+                                        <div class="flex items-center gap-2 mt-1">
+                                            <span id="cart-product-price" class="text-emerald-700 font-bold text-sm">$14.99</span>
+                                            <span class="text-xs text-slate-400">(1 unit max)</span>
+                                        </div>
+                                    </div>
+                                    <button id="remove-from-cart-btn" class="bg-rose-50 hover:bg-rose-100 text-rose-600 p-2 rounded-full transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                                </div>
+                                <div class="border-t border-slate-100 mt-5 pt-4">
+                                    <div class="flex justify-between font-semibold text-slate-800"><span>Subtotal</span><span id="cart-total">$14.99</span></div>
+                                    <p class="text-[11px] text-slate-400 mt-1">* Only one product allowed per cart</p>
+                                    <button id="fake-checkout-btn" class="w-full mt-4 bg-[#ec4899] hover:bg-pink-700 text-white font-bold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2">
+                                        💳 Proceed to Checkout (PayPal soon)
+                                    </button>
+                                    <p class="text-[10px] text-center text-slate-400 mt-2">Test mode — real payment integration coming later.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional reassurance note -->
+                <div class="mt-10 text-center text-xs text-slate-400 border-t pt-6">✅ Free shipping on orders over $30 | 2-year warranty on Mister Pro Mini</div>
+            </div>
+        </section>
+
+        <!-- ========== SUPPORT PAGE: ONLY HEADER + FAKE EMAIL FORM (everything else removed) ========== -->
+        <section id="view-support" class="view-panel hidden transition-opacity duration-300">
+            <div class="max-w-3xl mx-auto px-5 py-12 md:py-16">
+                <!-- Header only (as requested) -->
+                <div class="text-center mb-10">
+                    <span class="text-xs font-bold text-cyan-600 bg-cyan-50 px-3 py-1.5 rounded-full">📬 Stay in touch</span>
+                    <h1 class="text-4xl md:text-5xl font-black text-slate-900 mt-4 tracking-tight">Customer Support</h1>
+                    <p class="text-slate-500 mt-3 max-w-lg mx-auto">We’re here to help. Leave your email for updates, manuals, and priority support.</p>
+                </div>
+
+                <!-- FAKE EMAIL FORM (absolutely no extra content, no FAQ, no tickets) -->
+                <div class="bg-white rounded-3xl shadow-md border border-slate-100 p-8 md:p-10">
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mb-5">
+                            <svg class="w-7 h-7 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800">Get the latest news & offers</h2>
+                        <p class="text-slate-500 text-sm mt-2">No spam, only mist updates. Unsubscribe anytime.</p>
+                        <form id="fake-email-form" class="w-full mt-8 space-y-4" onsubmit="event.preventDefault(); fakeEmailSubscribe();">
+                            <div>
+                                <input type="text" id="fake-name" placeholder="Your name" class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none" required>
+                            </div>
+                            <div>
+                                <input type="email" id="fake-email" placeholder="you@example.com" class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none" required>
+                            </div>
+                            <button type="submit" class="w-full bg-slate-900 hover:bg-black text-white font-semibold py-3 rounded-xl transition shadow-md">Subscribe →</button>
+                        </form>
+                        <p class="text-[11px] text-slate-400 mt-6">✨ This is a demo form — no data is stored. For real support you’ll be contacted later.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (minimal) -->
+    <footer class="bg-slate-950 text-white mt-16 py-10">
+        <div class="max-w-7xl mx-auto px-5 text-center text-slate-400 text-xs">
+            <p>© 2026 Mistly Fans — Mister Pro Mini Edition. One‑item cart demo.</p>
+            <p class="mt-1">📦 Mock e‑commerce | PayPal integration ready for future deployment</p>
+        </div>
+    </footer>
+
+    <script>
+        // ========== CART STATE (MAX 1 ITEM) ==========
+        const PRODUCT = {
+            id: "mister_pro_mini",
+            name: "Mister Pro Mini",
+            price: 14.99,
+            image: "Products/pr1.png"
+        };
+
+        let cart = [];     // will hold 0 or 1 product object
+
+        // DOM elements
+        let addBtn, removeBtn, emptyDiv, filledDiv, cartBadgeHeader, cartTotalSpan, cartProductNameSpan, cartProductPriceSpan, cartProductImg;
+
+        function updateCartUI() {
+            const emptyCartDiv = document.getElementById('empty-cart-message');
+            const filledCartDiv = document.getElementById('cart-filled-content');
+            const addToCartButton = document.getElementById('add-to-cart-btn');
+            const cartBadge = document.getElementById('cart-badge-header');
+            
+            if (!emptyCartDiv || !filledCartDiv) return;
+
+            if (cart.length === 0) {
+                emptyCartDiv.classList.remove('hidden');
+                filledCartDiv.classList.add('hidden');
+                if (addToCartButton) {
+                    addToCartButton.disabled = false;
+                    addToCartButton.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg> Add to Cart`;
+                    addToCartButton.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
+                    addToCartButton.classList.add('bg-slate-900', 'hover:bg-black');
+                }
+                if (cartBadge) cartBadge.innerText = '0';
+            } else {
+                // exactly one product
+                emptyCartDiv.classList.add('hidden');
+                filledCartDiv.classList.remove('hidden');
+                const item = cart[0];
+                if (cartProductNameSpan) cartProductNameSpan.innerText = item.name;
+                if (cartProductPriceSpan) cartProductPriceSpan.innerText = `$${item.price.toFixed(2)}`;
+                if (cartTotalSpan) cartTotalSpan.innerText = `$${item.price.toFixed(2)}`;
+                if (cartProductImg) cartProductImg.src = item.image;
+                // disable add to cart
+                if (addToCartButton) {
+                    addToCartButton.disabled = true;
+                    addToCartButton.innerHTML = `✓ Already in cart`;
+                    addToCartButton.classList.add('opacity-70', 'cursor-not-allowed', 'bg-gray-500');
+                    addToCartButton.classList.remove('bg-slate-900', 'hover:bg-black');
+                }
+                if (cartBadge) cartBadge.innerText = '1';
+            }
+        }
+
+        function addToCart() {
+            if (cart.length >= 1) {
+                showToast("❌ Cart already has 1 item (max limit). Remove current item before adding again.");
+                return;
+            }
+            cart.push({ ...PRODUCT });
+            updateCartUI();
+            showToast(`✨ ${PRODUCT.name} added to cart!`);
+        }
+
+        function removeFromCart() {
+            if (cart.length === 0) return;
+            cart = [];
+            updateCartUI();
+            showToast(`🗑️ Removed from cart. You can add again.`);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            toast.innerText = msg;
+            toast.classList.remove('opacity-0', 'translate-y-10');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-10');
+            }, 2800);
+        }
+
+        // ========== FAKE EMAIL SUBSCRIBE (support page) ==========
+        window.fakeEmailSubscribe = function() {
+            const nameInput = document.getElementById('fake-name');
+            const emailInput = document.getElementById('fake-email');
+            if (nameInput && emailInput && nameInput.value.trim() !== "" && emailInput.value.trim() !== "") {
+                showToast(`📧 Thanks ${nameInput.value.split(' ')[0]}! You're subscribed (demo). No actual emails sent.`);
+                nameInput.value = '';
+                emailInput.value = '';
+            } else {
+                showToast("⚠️ Please fill both name and email (just for demo)");
+            }
+        };
+
+        // ========== NAVIGATION & MOBILE TOGGLE ==========
+        let currentView = 'home';
+        function navigateTo(viewName) {
+            currentView = viewName;
+            document.querySelectorAll('.view-panel').forEach(panel => panel.classList.add('hidden'));
+            const target = document.getElementById(`view-${viewName}`);
+            if (target) target.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // if mobile menu open, close
+            const mobMenu = document.getElementById('mobile-menu');
+            if (mobMenu && !mobMenu.classList.contains('hidden')) mobMenu.classList.add('hidden');
+        }
+
+        window.toggleMobileMenu = function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        };
+
+        // ========== EVENT LISTENERS & INIT ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get cart elements
+            emptyDiv = document.getElementById('empty-cart-message');
+            filledDiv = document.getElementById('cart-filled-content');
+            addBtn = document.getElementById('add-to-cart-btn');
+            removeBtn = document.getElementById('remove-from-cart-btn');
+            cartBadgeHeader = document.getElementById('cart-badge-header');
+            cartTotalSpan = document.getElementById('cart-total');
+            cartProductNameSpan = document.getElementById('cart-product-name');
+            cartProductPriceSpan = document.getElementById('cart-product-price');
+            cartProductImg = document.getElementById('cart-product-img');
+            
+            // set initial cart empty
+            cart = [];
+            updateCartUI();
+            
+            if (addBtn) addBtn.addEventListener('click', addToCart);
+            if (removeBtn) removeBtn.addEventListener('click', removeFromCart);
+            
+            // fake checkout (demo)
+            const fakeCheckout = document.getElementById('fake-checkout-btn');
+            if (fakeCheckout) {
+                fakeCheckout.addEventListener('click', () => {
+                    if (cart.length === 0) {
+                        showToast("🛒 Cart is empty — add Mister Pro Mini first.");
+                    } else {
+                        showToast("🔜 PayPal checkout demo. Real integration will replace this button later. (One product only)");
+                    }
+                });
+            }
+
+            // Ensure home view is shown initially, but if URL param? We set default.
+            navigateTo('home');
+            
+            // Additional fallback: If product image fails, set placeholder
+            const productImgElem = document.querySelector('#view-shop img[src="Products/pr1.png"]');
+            if (productImgElem) {
+                productImgElem.onerror = function() { this.src = 'https://placehold.co/400x400?text=Mister+Pro+Mini'; };
+            }
+            const cartImgElem = document.getElementById('cart-product-img');
+            if (cartImgElem) cartImgElem.onerror = function() { this.src = 'https://placehold.co/64?text=mini'; };
+        });
+    </script>
+</body>
+</html>
