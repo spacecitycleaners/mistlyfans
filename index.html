@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Mistly Fans | Mister Pro Mini + One-Click Cart</title>
+    <title>Mistly Fans | Premium Home & Wearable Essentials</title>
+    <!-- Favicon link -->
+    <link class="rounded-full" rel="icon" type="image/png" href="Images/favicon.png">
     <!-- Tailwind + Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,55 +15,98 @@
         * { font-family: 'Inter', sans-serif; }
         body { background: #fafafc; }
         .cart-badge { transition: all 0.2s ease; }
-        .product-card, .cart-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .product-card:hover { transform: translateY(-3px); box-shadow: 0 20px 25px -12px rgba(0,0,0,0.1); }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: #eef2f6; border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* Custom smooth hardware-accelerated menu transition */
+        #mobile-menu {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: top;
+        }
+
+        /* Hamburger lines animation */
+        .hamburger-line {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* Interactive hamburger transformation state */
+        .menu-open .line-top {
+            transform: translateY(6px) rotate(45deg);
+        }
+        .menu-open .line-mid {
+            opacity: 0;
+            transform: scale(0);
+        }
+        .menu-open .line-bot {
+            transform: translateY(-6px) rotate(-45deg);
+        }
     </style>
 </head>
-<body class="text-slate-800 antialiased flex flex-col min-h-screen">
+<body class="text-slate-800 antialiased flex flex-col min-h-screen relative overflow-x-hidden">
 
-    <!-- Simple Announcement Bar (kept for style, can be closed) -->
+    <!-- Announcement Bar -->
     <div id="announcement-bar" class="bg-[#bd1d1d] text-white text-xs md:text-sm font-semibold py-2.5 px-4 relative z-50 flex items-center justify-center">
         <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('shop')">
-            <span>⚡ NEW: Mister Pro Mini — Ultrathin mist + ultra cooling</span>
+            <svg class="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>NEW: Mister Pro Mini — Ultrathin mist + ultra cooling</span>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </div>
         <button onclick="event.stopPropagation(); document.getElementById('announcement-bar').remove();" class="absolute right-4 p-1 hover:bg-white/10 rounded transition">✕</button>
     </div>
 
-    <!-- Header with Navigation + CART ICON with badge -->
+    <!-- Header Navigation -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-100 shadow-sm">
-        <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-8 h-16 lg:h-20 flex items-center justify-between">
-            <!-- Desktop Nav -->
-            <nav class="hidden md:flex items-center space-x-7 text-sm font-medium text-slate-600">
-                <button onclick="navigateTo('home')" class="hover:text-black transition border-b-2 border-transparent hover:border-black pb-1">Home</button>
-                <button onclick="navigateTo('shop')" class="hover:text-black transition border-b-2 border-transparent hover:border-black pb-1">Shop Fans</button>
-                <button onclick="navigateTo('support')" class="hover:text-black transition border-b-2 border-transparent hover:border-black pb-1">Support</button>
-            </nav>
-            <!-- Mobile Toggle -->
-            <div class="md:hidden">
-                <button onclick="toggleMobileMenu()" class="text-slate-700"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
-            </div>
-            <!-- Logo -->
-            <div class="flex items-center space-x-2 cursor-pointer" onclick="navigateTo('home')">
-                <img src="Images/logo.png" alt="Mistly" class="h-7 w-7 object-contain" onerror="this.style.display='none'">
-                <span class="font-extrabold text-xl md:text-2xl tracking-tight">Mistly<span class="text-cyan-500">Fans</span><span class="text-[10px] align-super">™</span></span>
-            </div>
-            <!-- Right side: Cart icon with badge (click navigates to shop) -->
-            <div class="relative cursor-pointer group" onclick="navigateTo('shop')">
-                <div class="bg-slate-100 p-2 rounded-full hover:bg-slate-200 transition">
-                    <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 1.5M17 13l1.5 1.5M9 21h6M10 17h4"></path></svg>
+        <!-- 3-Column layout guarantees Centered logo on all viewports -->
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-8 h-16 lg:h-20 grid grid-cols-3 items-center">
+            
+            <!-- Left Side: Navigation (Desktop) / Hamburger Menu Toggle (Mobile) -->
+            <div class="flex items-center">
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center space-x-7 text-sm font-medium text-slate-600">
+                    <button onclick="navigateTo('home')" class="hover:text-black transition border-b-2 border-transparent hover:border-black pb-1">Home</button>
+                    <button onclick="navigateTo('shop')" class="hover:text-black transition border-b-2 border-transparent hover:border-black pb-1">Shop Fans</button>
+                    <button onclick="navigateTo('support')" class="hover:text-black transition border-b-2 border-transparent hover:border-black pb-1">Support</button>
+                </nav>
+                <!-- Mobile Toggle Button (Supports both Hover and Click with smooth line animations) -->
+                <div class="md:hidden relative inline-block" id="menu-button-container">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="text-slate-700 focus:outline-none p-2 hover:text-black hover:bg-slate-50 rounded-xl transition duration-200 flex flex-col justify-center items-center gap-1.5 w-10 h-10" aria-label="Toggle menu">
+                        <span class="hamburger-line line-top block w-6 h-0.5 bg-current rounded"></span>
+                        <span class="hamburger-line line-mid block w-6 h-0.5 bg-current rounded"></span>
+                        <span class="hamburger-line line-bot block w-6 h-0.5 bg-current rounded"></span>
+                    </button>
                 </div>
-                <span id="cart-badge-header" class="cart-badge absolute -top-1 -right-1 bg-[#ec4899] text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm">0</span>
+            </div>
+
+            <!-- Center Side: Logo Container (Strictly Centered No Matter What Size) -->
+            <div class="flex items-center justify-center text-center">
+                <div class="flex items-center space-x-2">
+                    <!-- Logo image linked to Images/logo.png -->
+                    <a href="Images/logo.png" target="_blank" class="block transition hover:scale-105">
+                        <img src="Images/logo.png" alt="Mistly" class="h-7 w-7 object-contain" onerror="this.style.display='none'">
+                    </a>
+                    <span onclick="navigateTo('home')" class="font-extrabold text-xl md:text-2xl tracking-tight cursor-pointer select-none">
+                        Mistly<span class="text-cyan-500">Fans</span><span class="text-[10px] align-super">™</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Right Side: Cart Drawer Trigger -->
+            <div class="flex items-center justify-end">
+                <div class="relative cursor-pointer group" onclick="toggleCartDrawer(true)">
+                    <div class="bg-slate-100 p-2 rounded-full hover:bg-slate-200 transition">
+                        <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 1.5M17 13l1.5 1.5M9 21h6M10 17h4"></path></svg>
+                    </div>
+                    <span id="cart-badge-header" class="cart-badge absolute -top-1 -right-1 bg-[#ec4899] text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm">0</span>
+                </div>
             </div>
         </div>
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-b px-5 pb-5 pt-2 space-y-3">
-            <button onclick="navigateTo('home'); toggleMobileMenu()" class="block w-full text-left font-semibold py-2">Home</button>
-            <button onclick="navigateTo('shop'); toggleMobileMenu()" class="block w-full text-left font-semibold py-2">Shop Fans</button>
-            <button onclick="navigateTo('support'); toggleMobileMenu()" class="block w-full text-left font-semibold py-2">Support</button>
+
+        <!-- Mobile Hoverable/Clickable Menu Layout with Smooth Slide & Fade Transition -->
+        <div id="mobile-menu" class="opacity-0 -translate-y-4 pointer-events-none md:hidden bg-white border-b border-slate-100 px-5 pb-6 pt-2 space-y-3 shadow-lg absolute w-full left-0 z-50">
+            <button onclick="navigateTo('home'); closeMobileMenu()" class="block w-full text-left font-semibold py-2.5 border-b border-slate-50 text-slate-700 hover:text-black hover:pl-2 transition-all">Home</button>
+            <button onclick="navigateTo('shop'); closeMobileMenu()" class="block w-full text-left font-semibold py-2.5 border-b border-slate-50 text-slate-700 hover:text-black hover:pl-2 transition-all">Shop Fans</button>
+            <button onclick="navigateTo('support'); closeMobileMenu()" class="block w-full text-left font-semibold py-2.5 text-slate-700 hover:text-black hover:pl-2 transition-all">Support</button>
         </div>
     </header>
 
@@ -69,111 +114,256 @@
     <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-5 py-2.5 rounded-full shadow-xl text-sm font-medium transition-all duration-300 opacity-0 pointer-events-none translate-y-10">Message</div>
 
     <main class="flex-grow">
-        <!-- ========== HOME VIEW (unchanged but functional) ========== -->
+        <!-- ========== HOME VIEW ========== -->
         <section id="view-home" class="view-panel transition-opacity duration-300">
             <div class="max-w-7xl mx-auto px-5 py-8 md:py-12">
                 <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl overflow-hidden shadow-xl p-8 md:p-12">
                     <h1 class="text-3xl md:text-5xl font-black leading-tight">High Performance<br>Misting Fans.</h1>
                     <p class="text-slate-300 text-lg mt-3 max-w-xl">Experience Mister Pro Mini — pocket-sized, premium mist cooling.</p>
-                    <button onclick="navigateTo('shop')" class="mt-6 bg-[#ec4899] hover:bg-pink-700 rounded-full px-6 py-3 font-bold transition flex items-center gap-2">Shop Now →</button>
+                    <button onclick="navigateTo('shop')" class="mt-6 bg-[#ec4899] hover:bg-pink-700 text-white rounded-full px-6 py-3 font-bold transition flex items-center gap-2">
+                        <span>Shop Now</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </button>
                 </div>
-                <!-- tiny trust badges (clean) -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-14 text-center">
-                    <div class="bg-white p-3 rounded-xl shadow-sm"><span class="font-bold text-sm">🌬️ Ultra-Fine Mist</span><p class="text-xs text-slate-500">10 micron</p></div>
-                    <div class="bg-white p-3 rounded-xl shadow-sm"><span class="font-bold text-sm">🔇 Whisper Quiet</span><p class="text-xs text-slate-500">Brushless motor</p></div>
-                    <div class="bg-white p-3 rounded-xl shadow-sm"><span class="font-bold text-sm">⚡ 12H Battery</span><p class="text-xs text-slate-500">USB-C fast charge</p></div>
-                    <div class="bg-white p-3 rounded-xl shadow-sm"><span class="font-bold text-sm">🚚 Fast Shipping</span><p class="text-xs text-slate-500">24h dispatch</p></div>
+
+                <!-- ========================================== -->
+                <!-- PREMIUM SOCIAL PROOF & VIDEO REVIEW SECTION (ON HOME PAGE) -->
+                <!-- ========================================== -->
+                <div class="mt-20 border-t border-slate-100 pt-16">
+                    <div class="text-center mb-10">
+                        <span class="text-xs font-bold text-cyan-600 bg-cyan-50 px-3 py-1.5 rounded-full uppercase tracking-wider">Social Proof</span>
+                        <h3 class="text-2xl md:text-3xl font-black text-slate-900 mt-3">See it in action</h3>
+                        <p class="text-slate-500 text-sm max-w-md mx-auto mt-2">Real customers experiencing the absolute best pocket cooling comfort.</p>
+                    </div>
+
+                    <!-- Room for One Mobile Video Review on Top of text reviews -->
+                    <div class="flex justify-center mb-16">
+                        <div class="relative w-full max-w-[320px] aspect-[9/16] bg-slate-950 rounded-[40px] shadow-2xl overflow-hidden border-[8px] border-slate-900 p-1 flex flex-col justify-between">
+                            <!-- Background placeholder graphic/thumbnail styled dynamically simulating a reel -->
+                            <div class="absolute inset-0 bg-cover bg-center opacity-90 transition-transform duration-500 hover:scale-105" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600');">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/30"></div>
+                            </div>
+
+                            <!-- Top bar overlay -->
+                            <div class="relative z-10 flex justify-between items-center px-4 py-3 text-white">
+                                <div class="flex items-center gap-1">
+                                    <span class="w-2.5 h-2.5 bg-rose-500 rounded-full animate-pulse"></span>
+                                    <span class="text-[10px] font-bold tracking-widest uppercase">Live Review</span>
+                                </div>
+                                <div class="bg-black/30 backdrop-blur-md p-1.5 rounded-full">
+                                    <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M12 18.75V5.25L7.5 9.75H4.5V14.25H7.5L12 18.75z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <!-- Centered Play Action Overlay -->
+                            <div class="relative z-10 flex-grow flex items-center justify-center">
+                                <button class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/40 hover:bg-white hover:text-slate-900 text-white transition-all transform hover:scale-110 shadow-lg" aria-label="Play video review">
+                                    <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Bottom User Card Overlay -->
+                            <div class="relative z-10 p-5 text-white">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="flex text-amber-400 gap-0.5">
+                                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    </div>
+                                    <span class="text-xs font-bold bg-white/20 px-1.5 py-0.5 rounded text-white">5.0</span>
+                                </div>
+                                <h4 class="font-extrabold text-sm tracking-tight">Jessie Miller</h4>
+                                <p class="text-[11px] text-slate-300 line-clamp-2 mt-1">"Seriously the best travel accessory. Keeps my face refreshingly cool and hydrated."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Five Reviews: Fitted Left-To-Right (Responsive Layout Grid) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                        <!-- Review Card 1 -->
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100 flex flex-col justify-between shadow-sm">
+                            <div>
+                                <div class="flex text-amber-400 gap-0.5 mb-2.5">
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                </div>
+                                <p class="text-xs text-slate-600 italic">"Absolute game changer for hot weather."</p>
+                            </div>
+                            <div class="mt-4 border-t border-slate-50 pt-2 flex items-center justify-between text-[10px]">
+                                <span class="font-bold text-slate-900">Sarah K.</span>
+                                <span class="text-emerald-600 font-medium">Verified</span>
+                            </div>
+                        </div>
+
+                        <!-- Review Card 2 -->
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100 flex flex-col justify-between shadow-sm">
+                            <div>
+                                <div class="flex text-amber-400 gap-0.5 mb-2.5">
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                </div>
+                                <p class="text-xs text-slate-600 italic">"The mist is so ultra fine, it doesn't leave wet residue."</p>
+                            </div>
+                            <div class="mt-4 border-t border-slate-50 pt-2 flex items-center justify-between text-[10px]">
+                                <span class="font-bold text-slate-900">Marcus T.</span>
+                                <span class="text-emerald-600 font-medium">Verified</span>
+                            </div>
+                        </div>
+
+                        <!-- Review Card 3 -->
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100 flex flex-col justify-between shadow-sm">
+                            <div>
+                                <div class="flex text-amber-400 gap-0.5 mb-2.5">
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                </div>
+                                <p class="text-xs text-slate-600 italic">"Whisper quiet brushless motor. Can use it during meetings."</p>
+                            </div>
+                            <div class="mt-4 border-t border-slate-50 pt-2 flex items-center justify-between text-[10px]">
+                                <span class="font-bold text-slate-900">Elena R.</span>
+                                <span class="text-emerald-600 font-medium">Verified</span>
+                            </div>
+                        </div>
+
+                        <!-- Review Card 4 -->
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100 flex flex-col justify-between shadow-sm">
+                            <div>
+                                <div class="flex text-amber-400 gap-0.5 mb-2.5">
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                </div>
+                                <p class="text-xs text-slate-600 italic">"The 12-hour fast charge USB-C battery is extremely reliable."</p>
+                            </div>
+                            <div class="mt-4 border-t border-slate-50 pt-2 flex items-center justify-between text-[10px]">
+                                <span class="font-bold text-slate-900">David L.</span>
+                                <span class="text-emerald-600 font-medium">Verified</span>
+                            </div>
+                        </div>
+
+                        <!-- Review Card 5 -->
+                        <div class="bg-white p-4 rounded-2xl border border-slate-100 flex flex-col justify-between shadow-sm">
+                            <div>
+                                <div class="flex text-amber-400 gap-0.5 mb-2.5">
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                </div>
+                                <p class="text-xs text-slate-600 italic">"Fast shipping indeed. Arrived in less than 24h!"</p>
+                            </div>
+                            <div class="mt-4 border-t border-slate-50 pt-2 flex items-center justify-between text-[10px]">
+                                <span class="font-bold text-slate-900">Chloe P.</span>
+                                <span class="text-emerald-600 font-medium">Verified</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- ========================================== -->
+                <!-- REDESIGNED "BETTER PROMISE" GRID SECTION (ON HOME PAGE) -->
+                <!-- ========================================== -->
+                <div class="mt-20 border-t border-slate-100 pt-16">
+                    <div class="text-center mb-12">
+                        <span class="text-xs font-bold text-[#ec4899] bg-pink-50 px-3 py-1.5 rounded-full uppercase tracking-wider">Our Standards</span>
+                        <h3 class="text-2xl md:text-3xl font-black text-slate-900 mt-3">The Mistly Guarantee</h3>
+                        <p class="text-slate-500 text-sm max-w-sm mx-auto mt-2">Engineered without compromises for performance and daily comfort.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Promise 1 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-sm hover:shadow-md transition">
+                            <div class="w-12 h-12 bg-cyan-50 rounded-full flex items-center justify-center text-cyan-600 mb-4">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                                </svg>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-sm">Ultra-Fine Mist</h4>
+                            <p class="text-xs text-slate-500 mt-1">10 micron micro-particles</p>
+                        </div>
+
+                        <!-- Promise 2 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-sm hover:shadow-md transition">
+                            <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-600 mb-4">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l2 2m-2-2l-2-2"></path>
+                                </svg>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-sm">Whisper Quiet</h4>
+                            <p class="text-xs text-slate-500 mt-1">Brushless high-efficiency motor</p>
+                        </div>
+
+                        <!-- Promise 3 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-sm hover:shadow-md transition">
+                            <div class="w-12 h-12 bg-amber-50 rounded-full flex items-center justify-center text-amber-600 mb-4">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-sm">12H Battery</h4>
+                            <p class="text-xs text-slate-500 mt-1">USB-C instant fast charge</p>
+                        </div>
+
+                        <!-- Promise 4 -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-sm hover:shadow-md transition">
+                            <div class="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 mb-4">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+                                </svg>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-sm">Fast Shipping</h4>
+                            <p class="text-xs text-slate-500 mt-1">24h dispatch & delivery</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- ========== SHOP VIEW: Mister Pro Mini + Cart (max 1 item) ========== -->
+        <!-- ========== SHOP VIEW: MATCHED CUSTOM GRID STYLE ========== -->
         <section id="view-shop" class="view-panel hidden transition-opacity duration-300">
             <div class="max-w-7xl mx-auto px-5 py-8 lg:py-12">
                 <!-- Shop header -->
-                <div class="mb-8 text-center lg:text-left">
-                    <span class="text-xs font-bold text-[#ec4899] bg-pink-50 px-3 py-1 rounded-full">🔥 Just Dropped</span>
-                    <h2 class="text-3xl lg:text-4xl font-black text-slate-900 mt-2">Mister Pro Mini</h2>
-                    <p class="text-slate-500 max-w-xl">The world’s most compact misting fan — rechargeable, portable, and refreshingly cool.</p>
+                <div class="mb-12 text-center lg:text-left">
+                    <h2 class="text-3xl lg:text-4xl font-black text-slate-900">Shop Essentials</h2>
+                    <p class="text-slate-500 max-w-xl mt-2">Premium engineering meets minimalist functional lifestyle aesthetics.</p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-                    <!-- LEFT: Product Card -->
-                    <div class="product-card bg-white rounded-3xl border border-slate-100 shadow-md overflow-hidden">
-                        <div class="bg-gradient-to-br from-slate-50 to-white p-6 flex justify-center">
-                            <img src="Products/pr1.png" alt="Mister Pro Mini misting fan" class="w-72 h-72 object-contain drop-shadow-xl" onerror="this.src='https://placehold.co/400x400?text=Mister+Pro+Mini'; this.onerror=null;">
-                        </div>
-                        <div class="p-6 border-t border-slate-100">
-                            <div class="flex justify-between items-center flex-wrap gap-2 mb-3">
-                                <h3 class="text-2xl font-extrabold">Mister Pro Mini</h3>
-                                <span class="bg-emerald-100 text-emerald-800 text-sm font-bold px-3 py-1 rounded-full">$14.99 USD</span>
-                            </div>
-                            <p class="text-slate-600 text-sm leading-relaxed mb-5">High-pressure mist nozzle + dual-speed fan. Fits in pocket, provides instant cooling relief for outdoor sports, travel, or desk. USB rechargeable with 180ml tank.</p>
-                            <div class="flex items-center justify-between border-t pt-4 border-slate-100">
-                                <div class="flex items-center gap-2 text-sm text-slate-500"><span>💧 30min continuous mist</span><span>🌀 2 speeds</span></div>
-                                <button id="add-to-cart-btn" class="bg-slate-900 hover:bg-black text-white font-bold py-3 px-8 rounded-full transition-all duration-200 shadow-md flex items-center gap-2">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                                    Add to Cart
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- RIGHT: CART PANEL (only 1 product allowed) -->
-                    <div class="cart-card bg-white rounded-3xl border border-slate-100 shadow-md p-6 sticky top-24">
-                        <div class="flex items-center gap-2 border-b border-slate-100 pb-4 mb-5">
-                            <svg class="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 1.5M17 13l1.5 1.5M9 21h6M10 17h4"></path></svg>
-                            <h3 class="text-xl font-bold text-slate-800">Your Cart</h3>
-                            <span class="text-xs bg-slate-100 px-2 py-0.5 rounded-full ml-2">max 1 item</span>
-                        </div>
-                        <div id="cart-items-container" class="min-h-[180px]">
-                            <!-- empty cart default -->
-                            <div id="empty-cart-message" class="text-center py-8 text-slate-400 text-sm flex flex-col items-center gap-2">
-                                <svg class="w-10 h-10 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                                <span>Cart is empty</span>
-                                <span class="text-[11px]">Add Mister Pro Mini above</span>
-                            </div>
-                            <div id="cart-filled-content" class="hidden">
-                                <div class="flex gap-4 items-center">
-                                    <img id="cart-product-img" src="Products/pr1.png" class="w-16 h-16 object-contain rounded-lg bg-slate-50 p-1" onerror="this.src='https://placehold.co/64'">
-                                    <div class="flex-1">
-                                        <h4 id="cart-product-name" class="font-bold text-slate-800">Mister Pro Mini</h4>
-                                        <div class="flex items-center gap-2 mt-1">
-                                            <span id="cart-product-price" class="text-emerald-700 font-bold text-sm">$14.99</span>
-                                            <span class="text-xs text-slate-400">(1 unit max)</span>
-                                        </div>
-                                    </div>
-                                    <button id="remove-from-cart-btn" class="bg-rose-50 hover:bg-rose-100 text-rose-600 p-2 rounded-full transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
-                                </div>
-                                <div class="border-t border-slate-100 mt-5 pt-4">
-                                    <div class="flex justify-between font-semibold text-slate-800"><span>Subtotal</span><span id="cart-total">$14.99</span></div>
-                                    <p class="text-[11px] text-slate-400 mt-1">* Only one product allowed per cart</p>
-                                    <button id="fake-checkout-btn" class="w-full mt-4 bg-[#ec4899] hover:bg-pink-700 text-white font-bold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2">
-                                        💳 Proceed to Checkout (PayPal soon)
-                                    </button>
-                                    <p class="text-[10px] text-center text-slate-400 mt-2">Test mode — real payment integration coming later.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Product Grid -->
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-8 gap-y-12">
+                    <!-- Dynamic Product List injected below -->
                 </div>
-
-                <!-- Additional reassurance note -->
-                <div class="mt-10 text-center text-xs text-slate-400 border-t pt-6">✅ Free shipping on orders over $30 | 2-year warranty on Mister Pro Mini</div>
             </div>
         </section>
 
-        <!-- ========== SUPPORT PAGE: ONLY HEADER + FAKE EMAIL FORM (everything else removed) ========== -->
+        <!-- ========== SUPPORT PAGE ========== -->
         <section id="view-support" class="view-panel hidden transition-opacity duration-300">
             <div class="max-w-3xl mx-auto px-5 py-12 md:py-16">
-                <!-- Header only (as requested) -->
                 <div class="text-center mb-10">
-                    <span class="text-xs font-bold text-cyan-600 bg-cyan-50 px-3 py-1.5 rounded-full">📬 Stay in touch</span>
+                    <span class="text-xs font-bold text-cyan-600 bg-cyan-50 px-3 py-1.5 rounded-full">Stay in touch</span>
                     <h1 class="text-4xl md:text-5xl font-black text-slate-900 mt-4 tracking-tight">Customer Support</h1>
                     <p class="text-slate-500 mt-3 max-w-lg mx-auto">We’re here to help. Leave your email for updates, manuals, and priority support.</p>
                 </div>
 
-                <!-- FAKE EMAIL FORM (absolutely no extra content, no FAQ, no tickets) -->
                 <div class="bg-white rounded-3xl shadow-md border border-slate-100 p-8 md:p-10">
                     <div class="flex flex-col items-center text-center">
                         <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mb-5">
@@ -188,90 +378,236 @@
                             <div>
                                 <input type="email" id="fake-email" placeholder="you@example.com" class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none" required>
                             </div>
-                            <button type="submit" class="w-full bg-slate-900 hover:bg-black text-white font-semibold py-3 rounded-xl transition shadow-md">Subscribe →</button>
+                            <button type="submit" class="w-full bg-slate-900 hover:bg-black text-white font-semibold py-3 rounded-xl transition shadow-md">Subscribe</button>
                         </form>
-                        <p class="text-[11px] text-slate-400 mt-6">✨ This is a demo form — no data is stored. For real support you’ll be contacted later.</p>
+                        <p class="text-[11px] text-slate-400 mt-6">This is a demo form — no data is stored. For real support you’ll be contacted later.</p>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer (minimal) -->
+    <!-- Footer -->
     <footer class="bg-slate-950 text-white mt-16 py-10">
         <div class="max-w-7xl mx-auto px-5 text-center text-slate-400 text-xs">
-            <p>© 2026 Mistly Fans — Mister Pro Mini Edition. One‑item cart demo.</p>
-            <p class="mt-1">📦 Mock e‑commerce | PayPal integration ready for future deployment</p>
+            <p>© 2026 Mistly Fans — Functional Modern Catalog.</p>
+            <p class="mt-1">Mock e‑commerce | PayPal integration ready for deployment</p>
         </div>
     </footer>
 
-    <script>
-        // ========== CART STATE (MAX 1 ITEM) ==========
-        const PRODUCT = {
-            id: "mister_pro_mini",
-            name: "Mister Pro Mini",
-            price: 14.99,
-            image: "Products/pr1.png"
-        };
+    <!-- Overlay backdrop for Drawer -->
+    <div id="cart-drawer-overlay" onclick="toggleCartDrawer(false)" class="fixed inset-0 bg-black/40 z-40 hidden opacity-0 transition-opacity duration-300"></div>
 
-        let cart = [];     // will hold 0 or 1 product object
+    <!-- Slide-Out Cart Drawer Side Panel -->
+    <aside id="cart-drawer" class="fixed top-0 right-0 h-screen w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <!-- Header -->
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 1.5M17 13l1.5 1.5M9 21h6M10 17h4"></path></svg>
+                <h3 class="text-lg font-bold text-slate-800">Your Cart</h3>
+            </div>
+            <!-- Close Drawer Button SVG -->
+            <button onclick="toggleCartDrawer(false)" class="p-1.5 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-50 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Node List Items Container -->
+        <div id="cart-items-container" class="flex-grow p-5 overflow-y-auto space-y-4">
+            <!-- Empty state default view inside drawer -->
+            <div id="empty-cart-message" class="text-center py-12 text-slate-400 text-sm flex flex-col items-center justify-center gap-2 h-full">
+                <svg class="w-12 h-12 opacity-30 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                <span class="font-medium text-slate-700">Your cart is empty</span>
+                <span class="text-xs text-slate-400">Discover premium goods inside the shop tab.</span>
+            </div>
+
+            <!-- Filled Item Container List -->
+            <div id="cart-filled-content" class="hidden space-y-4">
+                <div id="cart-items-list" class="space-y-4">
+                    <!-- Dynamic Cart Rows will be rendered here by Javascript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Drawer Footer Area Summary Panel -->
+        <div class="p-5 bg-slate-50 border-t border-slate-100">
+            <div class="flex justify-between font-semibold text-slate-800 text-sm mb-4">
+                <span>Subtotal</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            
+            <!-- 
+                ==========================================================
+                PAYPAL STANDARD HTML PAYMENT BUTTON SLOT
+                ==========================================================
+            -->
+            <div id="paypal-button-container" class="w-full">
+                <!-- Current checkout mockup block layout -->
+                <button id="fake-checkout-btn" class="w-full bg-[#ffc439] hover:bg-[#f2ba32] text-slate-900 font-bold py-3 rounded-xl transition text-xs tracking-wide flex items-center justify-center gap-1.5 shadow-sm">
+                    <svg class="w-4 h-4 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span>Buy Now</span>
+                </button>
+            </div>
+            <!-- ========================================================== -->
+        </div>
+    </aside>
+
+    <script>
+        // ========== SINGLE REMAINING PRODUCT ==========
+        const PRODUCTS = [
+            {
+                id: "mister_pro_mini",
+                name: "Mister Pro Mini",
+                category: "Fans",
+                price: 34.99,
+                originalPrice: 49.99,
+                image: "Products/pr1.png"
+            }
+        ];
+
+        // ========== CART STATE ==========
+        let cart = [];
 
         // DOM elements
-        let addBtn, removeBtn, emptyDiv, filledDiv, cartBadgeHeader, cartTotalSpan, cartProductNameSpan, cartProductPriceSpan, cartProductImg;
+        let productGrid, cartItemsContainer, cartItemsList, emptyCartMessage, cartFilledContent, cartBadgeHeader, cartTotalSpan;
+
+        // Slide Drawer Animation Visibility Toggles
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('cart-drawer-overlay');
+            if(!drawer || !overlay) return;
+
+            if (open) {
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.remove('opacity-0');
+                    drawer.classList.remove('translate-x-full');
+                }, 20);
+            } else {
+                drawer.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // Generate the Catalog HTML elements (With an explicit, premium Add to Cart button layout)
+        function renderCatalog() {
+            productGrid.innerHTML = '';
+            PRODUCTS.forEach(product => {
+                const itemHTML = `
+                    <div class="group flex flex-col bg-white p-4 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 mx-auto w-full max-w-sm">
+                        <!-- Image Layout Frame -->
+                        <div class="relative aspect-square w-full overflow-hidden rounded-2xl bg-[#f4f4f6] cursor-pointer" onclick="addToCartById('${product.id}')">
+                            <img src="${product.image}" 
+                                 alt="${product.name}" 
+                                 class="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                                 onerror="this.src='https://placehold.co/400x400?text=${encodeURIComponent(product.name)}'">
+                        </div>
+                        
+                        <!-- Details Content (Bottom-Left title alignment + Bottom-Right Price setup) -->
+                        <div class="mt-4 flex justify-between items-start">
+                            <div>
+                                <h3 class="font-extrabold text-sm tracking-wider uppercase text-slate-950">${product.name}</h3>
+                                <p class="text-[10px] font-bold tracking-wider uppercase text-slate-400 mt-1">${product.category}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-extrabold text-sm text-[#bd1d1d]">$${product.price.toFixed(2)}</p>
+                                <p class="text-xs text-slate-400 line-through mt-0.5">$${product.originalPrice.toFixed(2)}</p>
+                            </div>
+                        </div>
+
+                        <!-- Explicit Add To Cart Button integrated directly into each product card -->
+                        <button onclick="addToCartById('${product.id}')" class="mt-4 w-full bg-slate-900 hover:bg-black text-white text-xs font-bold py-3 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm active:scale-[0.98]">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            <span>Add to Cart</span>
+                        </button>
+                    </div>
+                `;
+                productGrid.insertAdjacentHTML('beforeend', itemHTML);
+            });
+        }
 
         function updateCartUI() {
-            const emptyCartDiv = document.getElementById('empty-cart-message');
-            const filledCartDiv = document.getElementById('cart-filled-content');
-            const addToCartButton = document.getElementById('add-to-cart-btn');
-            const cartBadge = document.getElementById('cart-badge-header');
+            const totalUnits = cart.reduce((acc, item) => acc + item.quantity, 0);
             
-            if (!emptyCartDiv || !filledCartDiv) return;
-
             if (cart.length === 0) {
-                emptyCartDiv.classList.remove('hidden');
-                filledCartDiv.classList.add('hidden');
-                if (addToCartButton) {
-                    addToCartButton.disabled = false;
-                    addToCartButton.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg> Add to Cart`;
-                    addToCartButton.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
-                    addToCartButton.classList.add('bg-slate-900', 'hover:bg-black');
-                }
-                if (cartBadge) cartBadge.innerText = '0';
+                emptyCartMessage.classList.remove('hidden');
+                cartFilledContent.classList.add('hidden');
+                if (cartBadgeHeader) cartBadgeHeader.innerText = '0';
+                if (cartTotalSpan) cartTotalSpan.innerText = '$0.00';
             } else {
-                // exactly one product
-                emptyCartDiv.classList.add('hidden');
-                filledCartDiv.classList.remove('hidden');
-                const item = cart[0];
-                if (cartProductNameSpan) cartProductNameSpan.innerText = item.name;
-                if (cartProductPriceSpan) cartProductPriceSpan.innerText = `$${item.price.toFixed(2)}`;
-                if (cartTotalSpan) cartTotalSpan.innerText = `$${item.price.toFixed(2)}`;
-                if (cartProductImg) cartProductImg.src = item.image;
-                // disable add to cart
-                if (addToCartButton) {
-                    addToCartButton.disabled = true;
-                    addToCartButton.innerHTML = `✓ Already in cart`;
-                    addToCartButton.classList.add('opacity-70', 'cursor-not-allowed', 'bg-gray-500');
-                    addToCartButton.classList.remove('bg-slate-900', 'hover:bg-black');
+                emptyCartMessage.classList.add('hidden');
+                cartFilledContent.classList.remove('hidden');
+                
+                // Render list items
+                cartItemsList.innerHTML = '';
+                cart.forEach(item => {
+                    const rowHTML = `
+                        <div class="flex gap-4 items-center bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <img src="${item.image}" class="w-16 h-16 object-cover rounded-lg bg-white border p-1" onerror="this.src='https://placehold.co/64'">
+                            <div class="flex-1">
+                                <h4 class="font-bold text-sm text-slate-800 uppercase tracking-tight">${item.name}</h4>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="text-emerald-700 font-bold text-sm">$${item.price.toFixed(2)}</span>
+                                    <span class="text-[10px] text-slate-400">(Qty: ${item.quantity})</span>
+                                </div>
+                            </div>
+                            <!-- Quantity Controls & Delete Buttons -->
+                            <div class="flex items-center gap-2">
+                                <button onclick="changeQuantity('${item.id}', -1)" class="bg-white border hover:bg-slate-100 text-slate-600 p-1.5 rounded-lg transition text-xs font-bold">-</button>
+                                <button onclick="changeQuantity('${item.id}', 1)" class="bg-white border hover:bg-slate-100 text-slate-600 p-1.5 rounded-lg transition text-xs font-bold">+</button>
+                                <button onclick="removeFromCart('${item.id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-600 p-1.5 rounded-xl transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    cartItemsList.insertAdjacentHTML('beforeend', rowHTML);
+                });
+
+                // Calculate total
+                const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+                if (cartTotalSpan) cartTotalSpan.innerText = `$${subtotal.toFixed(2)}`;
+                if (cartBadgeHeader) cartBadgeHeader.innerText = totalUnits;
+            }
+        }
+
+        function addToCartById(productId) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            showToast(`${product.name} added to cart!`);
+            toggleCartDrawer(true); 
+        }
+
+        function changeQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                    return;
                 }
-                if (cartBadge) cartBadge.innerText = '1';
             }
+            updateCartUI();
         }
 
-        function addToCart() {
-            if (cart.length >= 1) {
-                showToast("❌ Cart already has 1 item (max limit). Remove current item before adding again.");
-                return;
-            }
-            cart.push({ ...PRODUCT });
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
             updateCartUI();
-            showToast(`✨ ${PRODUCT.name} added to cart!`);
-        }
-
-        function removeFromCart() {
-            if (cart.length === 0) return;
-            cart = [];
-            updateCartUI();
-            showToast(`🗑️ Removed from cart. You can add again.`);
+            showToast(`Item removed from cart.`);
         }
 
         function showToast(msg) {
@@ -283,23 +619,23 @@
             setTimeout(() => {
                 toast.classList.remove('opacity-100', 'translate-y-0');
                 toast.classList.add('opacity-0', 'translate-y-10');
-            }, 2800);
+            }, 2500);
         }
 
-        // ========== FAKE EMAIL SUBSCRIBE (support page) ==========
+        // ========== FAKE EMAIL SUBSCRIBE ==========
         window.fakeEmailSubscribe = function() {
             const nameInput = document.getElementById('fake-name');
             const emailInput = document.getElementById('fake-email');
             if (nameInput && emailInput && nameInput.value.trim() !== "" && emailInput.value.trim() !== "") {
-                showToast(`📧 Thanks ${nameInput.value.split(' ')[0]}! You're subscribed (demo). No actual emails sent.`);
+                showToast(`Thanks ${nameInput.value.split(' ')[0]}! You're subscribed (demo). No actual emails sent.`);
                 nameInput.value = '';
                 emailInput.value = '';
             } else {
-                showToast("⚠️ Please fill both name and email (just for demo)");
+                showToast("Please fill both name and email (just for demo)");
             }
         };
 
-        // ========== NAVIGATION & MOBILE TOGGLE ==========
+        // ========== NAVIGATION & MOBILE TOGGLE & HOVER LOGIC ==========
         let currentView = 'home';
         function navigateTo(viewName) {
             currentView = viewName;
@@ -307,58 +643,82 @@
             const target = document.getElementById(`view-${viewName}`);
             if (target) target.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            // if mobile menu open, close
-            const mobMenu = document.getElementById('mobile-menu');
-            if (mobMenu && !mobMenu.classList.contains('hidden')) mobMenu.classList.add('hidden');
+            closeMobileMenu();
         }
 
-        window.toggleMobileMenu = function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        };
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuBtnContainer = document.getElementById('menu-button-container');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        let closeTimeout;
+
+        // Hover & Click menu controllers
+        function openMobileMenu() {
+            clearTimeout(closeTimeout);
+            if (mobileMenu && mobileMenuBtn) {
+                mobileMenuBtn.classList.add('menu-open');
+                mobileMenu.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+            }
+        }
+
+        function closeMobileMenu() {
+            if (mobileMenu && mobileMenuBtn) {
+                mobileMenuBtn.classList.remove('menu-open');
+                mobileMenu.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                mobileMenu.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
+            }
+        }
+
+        function toggleMobileMenu() {
+            if (mobileMenu && mobileMenu.classList.contains('pointer-events-none')) {
+                openMobileMenu();
+            } else {
+                closeMobileMenu();
+            }
+        }
+
+        // Hover listener mappings
+        if (menuBtnContainer && mobileMenu) {
+            menuBtnContainer.addEventListener('mouseenter', openMobileMenu);
+            mobileMenu.addEventListener('mouseenter', openMobileMenu);
+
+            menuBtnContainer.addEventListener('mouseleave', () => {
+                closeTimeout = setTimeout(closeMobileMenu, 350);
+            });
+            mobileMenu.addEventListener('mouseleave', () => {
+                closeTimeout = setTimeout(closeMobileMenu, 350);
+            });
+        }
 
         // ========== EVENT LISTENERS & INIT ==========
         document.addEventListener('DOMContentLoaded', () => {
-            // Get cart elements
-            emptyDiv = document.getElementById('empty-cart-message');
-            filledDiv = document.getElementById('cart-filled-content');
-            addBtn = document.getElementById('add-to-cart-btn');
-            removeBtn = document.getElementById('remove-from-cart-btn');
+            productGrid = document.getElementById('product-grid');
+            cartItemsContainer = document.getElementById('cart-items-container');
+            cartItemsList = document.getElementById('cart-items-list');
+            emptyCartMessage = document.getElementById('empty-cart-message');
+            cartFilledContent = document.getElementById('cart-filled-content');
             cartBadgeHeader = document.getElementById('cart-badge-header');
             cartTotalSpan = document.getElementById('cart-total');
-            cartProductNameSpan = document.getElementById('cart-product-name');
-            cartProductPriceSpan = document.getElementById('cart-product-price');
-            cartProductImg = document.getElementById('cart-product-img');
             
-            // set initial cart empty
+            // Render catalog
+            renderCatalog();
+            
+            // Initialize empty cart
             cart = [];
             updateCartUI();
             
-            if (addBtn) addBtn.addEventListener('click', addToCart);
-            if (removeBtn) removeBtn.addEventListener('click', removeFromCart);
-            
-            // fake checkout (demo)
             const fakeCheckout = document.getElementById('fake-checkout-btn');
             if (fakeCheckout) {
                 fakeCheckout.addEventListener('click', () => {
                     if (cart.length === 0) {
-                        showToast("🛒 Cart is empty — add Mister Pro Mini first.");
+                        showToast("Your cart is empty — add some products first.");
                     } else {
-                        showToast("🔜 PayPal checkout demo. Real integration will replace this button later. (One product only)");
+                        showToast("PayPal checkout simulation... Buy Now initialized.");
                     }
                 });
             }
 
-            // Ensure home view is shown initially, but if URL param? We set default.
             navigateTo('home');
-            
-            // Additional fallback: If product image fails, set placeholder
-            const productImgElem = document.querySelector('#view-shop img[src="Products/pr1.png"]');
-            if (productImgElem) {
-                productImgElem.onerror = function() { this.src = 'https://placehold.co/400x400?text=Mister+Pro+Mini'; };
-            }
-            const cartImgElem = document.getElementById('cart-product-img');
-            if (cartImgElem) cartImgElem.onerror = function() { this.src = 'https://placehold.co/64?text=mini'; };
         });
     </script>
 </body>
