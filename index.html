@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Mistly Fans | Premium Misting Fans & Humidifiers</title>
-    <!-- Favicon link -->
     <link class="rounded-full" rel="icon" type="image/png" href="Images/favicon.png">
-    <!-- Tailwind + Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,78 +17,44 @@
         ::-webkit-scrollbar-track { background: #eef2f6; border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-        /* Custom smooth hardware-accelerated menu transition */
         #mobile-menu {
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             transform-origin: top;
         }
-
-        /* Hamburger lines animation */
         .hamburger-line {
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
-        /* Interactive hamburger transformation state */
-        .menu-open .line-top {
-            transform: translateY(6px) rotate(45deg);
-        }
-        .menu-open .line-mid {
-            opacity: 0;
-            transform: scale(0);
-        }
-        .menu-open .line-bot {
-            transform: translateY(-6px) rotate(-45deg);
-        }
+        .menu-open .line-top { transform: translateY(6px) rotate(45deg); }
+        .menu-open .line-mid { opacity: 0; transform: scale(0); }
+        .menu-open .line-bot { transform: translateY(-6px) rotate(-45deg); }
 
-        /* Carousel video fade & scale animation */
-        .video-slot {
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .video-slot.faded {
-            opacity: 0.45;
-            transform: scale(0.88);
-            pointer-events: none;
-        }
-        .video-slot.active {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
-        }
-        /* Improve swipe area */
-        #video-carousel-wrapper {
-            touch-action: pan-y; /* allow vertical scroll, horizontal swipe */
-        }
-        .video-slot img {
-            pointer-events: none;
-        }
+        .video-slot { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .video-slot.faded { opacity: 0.45; transform: scale(0.88); pointer-events: none; }
+        .video-slot.active { opacity: 1; transform: scale(1); pointer-events: auto; }
+        #video-carousel-wrapper { touch-action: pan-y; }
     </style>
 </head>
 <body class="text-slate-800 antialiased flex flex-col min-h-screen relative overflow-x-hidden">
 
-    <!-- Announcement Bar – Free Shipping -->
+    <!-- Announcement Bar -->
     <div id="announcement-bar" class="bg-[#bd1d1d] text-white text-xs md:text-sm font-semibold py-2.5 px-4 relative z-50 flex items-center justify-center">
         <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('shop')">
             <svg class="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
             <span>Free Shipping across North America</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </div>
         <button onclick="event.stopPropagation(); document.getElementById('announcement-bar').remove();" class="absolute right-4 p-1 hover:bg-white/10 rounded transition">✕</button>
     </div>
 
     <!-- Header Navigation -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-slate-100 shadow-sm">
-        <!-- 3-Column layout guarantees Centered logo on all viewports -->
         <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-8 h-16 lg:h-20 grid grid-cols-3 items-center">
-            
-            <!-- Left Side: Navigation (Desktop) / Hamburger Menu Toggle (Mobile) -->
             <div class="flex items-center">
-                <!-- Desktop Nav -->
                 <nav class="hidden md:flex items-center space-x-7 text-sm font-medium text-slate-600">
                     <button onclick="navigateTo('home')" class="hover:text-black transition border-b-2 border-transparent hover:border-black pb-1">Home</button>
                     <button onclick="navigateTo('shop')" class="hover:text-black transition border-b-2 border-transparent hover:border-black pb-1">Shop Fans</button>
                     <button onclick="navigateTo('support')" class="hover:text-black transition border-b-2 border-transparent hover:border-black pb-1">Support</button>
                 </nav>
-                <!-- Mobile Toggle Button (Supports both Hover and Click with smooth line animations) -->
                 <div class="md:hidden relative inline-block" id="menu-button-container">
                     <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="text-slate-700 focus:outline-none p-2 hover:text-black hover:bg-slate-50 rounded-xl transition duration-200 flex flex-col justify-center items-center gap-1.5 w-10 h-10" aria-label="Toggle menu">
                         <span class="hamburger-line line-top block w-6 h-0.5 bg-current rounded"></span>
@@ -100,10 +64,8 @@
                 </div>
             </div>
 
-            <!-- Center Side: Logo Container (Strictly Centered No Matter What Size) -->
             <div class="flex items-center justify-center text-center">
                 <div class="flex items-center space-x-2">
-                    <!-- Logo image linked to Images/logo.png -->
                     <a href="Images/logo.png" target="_blank" class="block transition hover:scale-105">
                         <img src="Images/logo.png" alt="Mistly" class="h-7 w-7 object-contain" onerror="this.style.display='none'">
                     </a>
@@ -113,18 +75,16 @@
                 </div>
             </div>
 
-            <!-- Right Side: Cart Drawer Trigger -->
             <div class="flex items-center justify-end">
                 <div class="relative cursor-pointer group" onclick="toggleCartDrawer(true)">
                     <div class="bg-slate-100 p-2 rounded-full hover:bg-slate-200 transition">
-                        <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 1.5M17 13l1.5 1.5M9 21h6M10 17h4"></path></svg>
+                        <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 1.5M17 13l1.5 1.5M9 21h6M10 17h4"/></svg>
                     </div>
                     <span id="cart-badge-header" class="cart-badge absolute -top-1 -right-1 bg-[#ec4899] text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-sm hidden">0</span>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Hoverable/Clickable Menu Layout with Smooth Slide & Fade Transition -->
         <div id="mobile-menu" class="opacity-0 -translate-y-4 pointer-events-none md:hidden bg-white border-b border-slate-100 px-5 pb-6 pt-2 space-y-3 shadow-lg absolute w-full left-0 z-50">
             <button onclick="navigateTo('home'); closeMobileMenu()" class="block w-full text-left font-semibold py-2.5 border-b border-slate-50 text-slate-700 hover:text-black hover:pl-2 transition-all">Home</button>
             <button onclick="navigateTo('shop'); closeMobileMenu()" class="block w-full text-left font-semibold py-2.5 border-b border-slate-50 text-slate-700 hover:text-black hover:pl-2 transition-all">Shop Fans</button>
@@ -132,65 +92,59 @@
         </div>
     </header>
 
-    <!-- Toast Notification – now z-[100] to appear above cart drawer -->
+    <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] bg-slate-900 text-white px-5 py-2.5 rounded-full shadow-xl text-sm font-medium transition-all duration-300 opacity-0 pointer-events-none translate-y-10">Message</div>
 
     <main class="flex-grow">
-        <!-- ========== HOME VIEW ========== -->
         <section id="view-home" class="view-panel transition-opacity duration-300">
             <div class="max-w-7xl mx-auto px-5 py-8 md:py-12">
-                <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl overflow-hidden shadow-xl p-8 md:p-12">
+                <!-- HERO SECTION with product image overlay -->
+                <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl overflow-hidden shadow-xl p-8 md:p-12 relative">
                     <h1 class="text-3xl md:text-5xl font-black leading-tight">High Performance<br>Misting Fans.</h1>
                     <p class="text-slate-300 text-lg mt-3 max-w-xl">Experience Mister Pro Mini — pocket-sized, premium mist cooling.</p>
-                    <button onclick="navigateTo('shop')" class="mt-6 bg-[#ec4899] hover:bg-pink-700 text-white rounded-full px-6 py-3 font-bold transition flex items-center gap-2">
+                    <button onclick="navigateTo('shop')" class="mt-6 bg-[#ec4899] hover:bg-pink-700 text-white rounded-full px-6 py-3 font-bold transition flex items-center gap-2 relative z-10">
                         <span>Shop Now</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </button>
+                    <!-- Product image with smooth corners, clickable -->
+                    <img src="Images/pr1.png" onclick="navigateTo('shop')" class="absolute bottom-0 right-0 w-40 h-40 md:w-48 md:h-48 object-contain rounded-2xl cursor-pointer hover:scale-105 transition-transform hidden md:block z-10" alt="Mister Pro Mini" onerror="this.style.display='none'">
                 </div>
 
-                <!-- ========================================== -->
-                <!-- PREMIUM VIDEO CAROUSEL WITH 3 FADED SLOTS (sides are images, center is video) -->
-                <!-- ========================================== -->
+                <!-- Video Carousel -->
                 <div class="mt-20 border-t border-slate-100 pt-16">
                     <div class="text-center mb-10">
                         <h3 class="text-2xl md:text-3xl font-black text-slate-900 mt-3">See it in action</h3>
-                        <p class="text-slate-500 text-sm max-w-md mx-auto mt-2">Watch the premium cooling mist function flawlessly in real-time.</p>
+                        <p class="text-slate-500 text-sm max-w-md mx-auto mt-2">Watch real reviews from different users – tap the center to play.</p>
                     </div>
 
-                    <!-- Three-slot carousel container -->
                     <div class="flex justify-center mb-16">
                         <div class="relative w-full max-w-2xl mx-auto flex items-center justify-center" id="video-carousel-wrapper">
-                            <!-- Left Arrow -->
                             <button onclick="changeVideo(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center border border-slate-200 hover:bg-white text-slate-700 shadow-md transition">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
                             </button>
-                            <!-- Right Arrow -->
                             <button onclick="changeVideo(1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center border border-slate-200 hover:bg-white text-slate-700 shadow-md transition">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                             </button>
 
-                            <!-- Carousel track: three slots -->
                             <div class="flex items-center justify-center gap-3 md:gap-4 w-full px-10">
-                                <!-- Slot 1 (left) - static image preview -->
                                 <div class="video-slot faded flex-1 max-w-[120px] sm:max-w-[140px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 relative">
-                                    <img id="image-left" src="Products/pr1.png" class="absolute inset-0 w-full h-full object-cover" alt="Preview">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+                                    <video id="video-left" class="absolute inset-0 w-full h-full object-cover" loop muted playsinline>
+                                        <source src="" type="video/mp4">
+                                    </video>
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
                                 </div>
 
-                                <!-- Slot 2 (center, active) - actual video -->
                                 <div class="video-slot active flex-1 max-w-[200px] sm:max-w-[280px] md:max-w-[320px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-xl border-2 border-cyan-400/60 relative z-10">
-                                    <video id="video-center" class="absolute inset-0 w-full h-full object-cover" loop playsinline poster="Products/pr1.png">
+                                    <video id="video-center" class="absolute inset-0 w-full h-full object-cover" loop playsinline>
                                         <source src="Videos/pr-review3.mp4" type="video/mp4">
                                     </video>
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none"></div>
-                                    <!-- Play/Pause overlay on center -->
                                     <div class="absolute inset-0 flex items-center justify-center z-10">
-                                        <button onclick="toggleVideoPlayback()" id="video-play-btn" class="w-12 h-12 bg-white/25 backdrop-blur-md rounded-full flex items-center justify-center border border-white/50 hover:bg-white hover:text-slate-900 text-white transition transform hover:scale-105 shadow-md" aria-label="Play video review">
+                                        <button onclick="toggleVideoPlayback()" id="video-play-btn" class="w-12 h-12 bg-white/25 backdrop-blur-md rounded-full flex items-center justify-center border border-white/50 hover:bg-white hover:text-slate-900 text-white transition transform hover:scale-105 shadow-md">
                                             <svg id="play-icon" class="w-5 h-5 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
                                             <svg id="pause-icon" class="w-5 h-5 fill-current hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
                                         </button>
                                     </div>
-                                    <!-- Bottom details overlay -->
                                     <div class="absolute bottom-0 left-0 right-0 p-4 text-white z-10 pointer-events-none">
                                         <div class="flex items-center gap-2 mb-1.5">
                                             <div class="flex text-amber-400 gap-0.5">
@@ -202,107 +156,67 @@
                                             </div>
                                             <span class="text-[9px] font-bold bg-white/20 px-1.5 py-0.5 rounded text-white">4.9</span>
                                         </div>
-                                        <h4 class="font-extrabold text-sm tracking-tight">Mister Pro Mini</h4>
-                                        <p class="text-xs text-slate-300 line-clamp-2 mt-0.5">Dual-speed pocket cooling fan in action. Ultrasonic mist generator demonstration.</p>
+                                        <h4 id="review-person-name" class="font-extrabold text-sm tracking-tight">Elena R.</h4>
+                                        <p id="review-person-text" class="text-xs text-slate-300 line-clamp-2 mt-0.5">"Whisper quiet brushless motor. Can use it during meetings."</p>
                                     </div>
                                 </div>
 
-                                <!-- Slot 3 (right) - static image preview -->
                                 <div class="video-slot faded flex-1 max-w-[120px] sm:max-w-[140px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 relative">
-                                    <img id="image-right" src="Products/pr1.png" class="absolute inset-0 w-full h-full object-cover" alt="Preview">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+                                    <video id="video-right" class="absolute inset-0 w-full h-full object-cover" loop muted playsinline>
+                                        <source src="" type="video/mp4">
+                                    </video>
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Dynamic Review Cards Section (populated from REVIEWS array) -->
-                    <div id="reviews-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                        <!-- Reviews will be injected here by JavaScript -->
-                    </div>
+                    <div id="reviews-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
                 </div>
 
-                <!-- ========================================== -->
-                <!-- REDESIGNED "BETTER PROMISE" GRID SECTION (ON HOME PAGE) -->
-                <!-- ========================================== -->
+                <!-- Mistly Guarantee Section -->
                 <div class="mt-20 border-t border-slate-100 pt-16">
                     <div class="text-center mb-12">
                         <span class="text-xs font-bold text-[#ec4899] bg-pink-50 px-3 py-1.5 rounded-full uppercase tracking-wider">Our Standards</span>
                         <h3 class="text-2xl md:text-3xl font-black text-slate-900 mt-3">The Mistly Guarantee</h3>
                         <p class="text-slate-500 text-sm max-w-sm mx-auto mt-2">Engineered without compromises for performance and daily comfort.</p>
                     </div>
-
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <!-- Promise 1 -->
                         <div class="bg-white p-6 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-sm hover:shadow-md transition">
-                            <div class="w-12 h-12 bg-cyan-50 rounded-full flex items-center justify-center text-cyan-600 mb-4">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
-                                </svg>
-                            </div>
+                            <div class="w-12 h-12 bg-cyan-50 rounded-full flex items-center justify-center text-cyan-600 mb-4"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg></div>
                             <h4 class="font-bold text-slate-900 text-sm">Ultra-Fine Mist</h4>
                             <p class="text-xs text-slate-500 mt-1">10 micron micro-particles</p>
                         </div>
-
-                        <!-- Promise 2 -->
                         <div class="bg-white p-6 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-sm hover:shadow-md transition">
-                            <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-600 mb-4">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l2 2m-2-2l-2-2"></path>
-                                </svg>
-                            </div>
+                            <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-600 mb-4"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg></div>
                             <h4 class="font-bold text-slate-900 text-sm">Whisper Quiet</h4>
                             <p class="text-xs text-slate-500 mt-1">Brushless high-efficiency motor</p>
                         </div>
-
-                        <!-- Promise 3 -->
                         <div class="bg-white p-6 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-sm hover:shadow-md transition">
-                            <div class="w-12 h-12 bg-amber-50 rounded-full flex items-center justify-center text-amber-600 mb-4">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                </svg>
-                            </div>
-                            <h4 class="font-bold text-slate-900 text-sm">12H Battery</h4>
-                            <p class="text-xs text-slate-500 mt-1">USB-C instant fast charge</p>
+                            <div class="w-12 h-12 bg-amber-50 rounded-full flex items-center justify-center text-amber-600 mb-4"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+                            <h4 class="font-bold text-slate-900 text-sm">20 Min Fast Charge</h4>
+                            <p class="text-xs text-slate-500 mt-1">USB-C fast charge</p>
                         </div>
-
-                        <!-- Promise 4 -->
                         <div class="bg-white p-6 rounded-2xl border border-slate-100 flex flex-col items-center text-center shadow-sm hover:shadow-md transition">
-                            <div class="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 mb-4">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
-                                </svg>
-                            </div>
+                            <div class="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 mb-4"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg></div>
                             <h4 class="font-bold text-slate-900 text-sm">Fast Shipping</h4>
-                            <p class="text-xs text-slate-500 mt-1">24h dispatch & delivery</p>
+                            <p class="text-xs text-slate-500 mt-1">Fast dispatch & delivery</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- ========================================== -->
-                <!-- HOT PRODUCT SECTION (ON HOME PAGE) - plural "Featured Favorites" -->
-                <!-- ========================================== -->
+                <!-- Featured Favorites -->
                 <div class="mt-20 border-t border-slate-100 pt-16">
                     <div class="text-center mb-10">
                         <span class="text-xs font-bold text-[#bd1d1d] bg-red-50 px-3 py-1.5 rounded-full uppercase tracking-wider">Hot Product</span>
                         <h3 class="text-2xl md:text-3xl font-black text-slate-900 mt-3">Featured Favorites</h3>
                         <p class="text-slate-500 text-sm max-w-sm mx-auto mt-2">Our top trending items, designed for ultimate portability and style.</p>
                     </div>
-
-                    <!-- Centered 1-Item Product Display Grid (With clean alignment for the one active product) -->
                     <div class="flex justify-center">
-                        <!-- Mister Pro Mini Featured Card -->
                         <div class="group flex flex-col bg-white p-4 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 w-full max-w-sm">
-                            <!-- Image Layout Frame -->
                             <div class="relative aspect-square w-full overflow-hidden rounded-2xl bg-[#f4f4f6] cursor-pointer" onclick="addToCartById('mister_pro_mini')">
-                                <img src="Products/pr1.png" 
-                                     alt="Mister Pro Mini" 
-                                     class="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-                                     onerror="this.src='https://placehold.co/400x400?text=Mister+Pro+Mini'">
+                                <img src="Products/pr1.png" alt="Mister Pro Mini" class="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://placehold.co/400x400?text=Mister+Pro+Mini'">
                             </div>
-                            
-                            <!-- Details Content -->
                             <div class="mt-4 flex justify-between items-start">
                                 <div>
                                     <h3 class="font-extrabold text-sm tracking-wider uppercase text-slate-950">Mister Pro Mini</h3>
@@ -313,38 +227,28 @@
                                     <p class="text-xs text-slate-400 line-through mt-0.5">$49.99</p>
                                 </div>
                             </div>
-
-                            <!-- Explicit Add To Cart Button -->
                             <button onclick="addToCartById('mister_pro_mini')" class="mt-4 w-full bg-slate-900 hover:bg-black text-white text-xs font-bold py-3 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm active:scale-[0.98]">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
-                                </svg>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
                                 <span>Add to Cart</span>
                             </button>
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
-        <!-- ========== SHOP VIEW: MATCHED CUSTOM GRID STYLE ========== -->
+        <!-- Shop View -->
         <section id="view-shop" class="view-panel hidden transition-opacity duration-300">
             <div class="max-w-7xl mx-auto px-5 py-8 lg:py-12">
-                <!-- Shop header -->
                 <div class="mb-12 text-center lg:text-center">
                     <h2 class="text-3xl lg:text-4xl font-black text-slate-900">Shop Essentials</h2>
                     <p class="text-slate-500 max-w-xl mt-2 mx-auto">Premium engineering meets minimalist functional lifestyle aesthetics.</p>
                 </div>
-
-                <!-- Product Grid -->
-                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-8 gap-y-12">
-                    <!-- Dynamic Product List injected below -->
-                </div>
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-8 gap-y-12"></div>
             </div>
         </section>
 
-        <!-- ========== SUPPORT PAGE (clean, no demo disclaimers) ========== -->
+        <!-- Support View -->
         <section id="view-support" class="view-panel hidden transition-opacity duration-300">
             <div class="max-w-3xl mx-auto px-5 py-12 md:py-16">
                 <div class="text-center mb-10">
@@ -352,24 +256,17 @@
                     <h1 class="text-4xl md:text-5xl font-black text-slate-900 mt-4 tracking-tight">Customer Support</h1>
                     <p class="text-slate-500 mt-3 max-w-lg mx-auto">Have a question? Fill out the form below and we'll get back to you.</p>
                 </div>
-
                 <div class="bg-white rounded-3xl shadow-md border border-slate-100 p-8 md:p-10">
                     <div class="flex flex-col items-center text-center">
                         <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mb-5">
-                            <svg class="w-7 h-7 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            <svg class="w-7 h-7 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                         </div>
                         <h2 class="text-2xl font-bold text-slate-800">Get in touch</h2>
                         <p class="text-slate-500 text-sm mt-2">We normally reply within 24 hours.</p>
                         <form id="fake-support-form" class="w-full mt-8 space-y-4" onsubmit="event.preventDefault(); fakeSupportSubmit();">
-                            <div>
-                                <input type="text" id="support-name" placeholder="Your name" class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none" required>
-                            </div>
-                            <div>
-                                <input type="email" id="support-email" placeholder="you@example.com" class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none" required>
-                            </div>
-                            <div>
-                                <textarea id="support-message" rows="4" placeholder="How can we help?" class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none" required></textarea>
-                            </div>
+                            <input type="text" id="support-name" placeholder="Your name" class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none" required>
+                            <input type="email" id="support-email" placeholder="you@example.com" class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none" required>
+                            <textarea id="support-message" rows="4" placeholder="How can we help?" class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none" required></textarea>
                             <button type="submit" class="w-full bg-slate-900 hover:bg-black text-white font-semibold py-3 rounded-xl transition shadow-md">Send Message</button>
                         </form>
                     </div>
@@ -385,65 +282,44 @@
         </div>
     </footer>
 
-    <!-- Overlay backdrop for Drawer -->
+    <!-- Cart Overlay & Drawer -->
     <div id="cart-drawer-overlay" onclick="toggleCartDrawer(false)" class="fixed inset-0 bg-black/40 z-40 hidden opacity-0 transition-opacity duration-300"></div>
-
-    <!-- Slide-Out Cart Drawer Side Panel -->
     <aside id="cart-drawer" class="fixed top-0 right-0 h-screen w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
-        <!-- Header -->
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 1.5M17 13l1.5 1.5M9 21h6M10 17h4"></path></svg>
+                <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 1.5M17 13l1.5 1.5M9 21h6M10 17h4"/></svg>
                 <h3 class="text-lg font-bold text-slate-800">Your Cart</h3>
             </div>
-            <!-- Close Drawer Button SVG -->
             <button onclick="toggleCartDrawer(false)" class="p-1.5 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-50 transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
         </div>
-
-        <!-- Node List Items Container -->
         <div id="cart-items-container" class="flex-grow p-5 overflow-y-auto space-y-4">
-            <!-- Empty state default view inside drawer -->
             <div id="empty-cart-message" class="text-center py-12 text-slate-400 text-sm flex flex-col items-center justify-center gap-2 h-full">
-                <svg class="w-12 h-12 opacity-30 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                <svg class="w-12 h-12 opacity-30 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                 <span class="font-medium text-slate-700">Your cart is empty</span>
                 <span class="text-xs text-slate-400">Discover premium goods inside the shop tab.</span>
             </div>
-
-            <!-- Filled Item Container List -->
             <div id="cart-filled-content" class="hidden space-y-4">
-                <div id="cart-items-list" class="space-y-4">
-                    <!-- Dynamic Cart Rows will be rendered here by Javascript -->
-                </div>
+                <div id="cart-items-list" class="space-y-4"></div>
             </div>
         </div>
-
-        <!-- Drawer Footer Area Summary Panel -->
         <div class="p-5 bg-slate-50 border-t border-slate-100">
             <div class="flex justify-between font-semibold text-slate-800 text-sm mb-4">
                 <span>Subtotal</span>
                 <span id="cart-total">$0.00</span>
             </div>
-            
-            <!-- 
-                ==========================================================
-                PAYPAL STANDARD HTML PAYMENT BUTTON SLOT
-                ==========================================================
-            -->
             <div id="paypal-button-container" class="w-full">
-                <!-- Current checkout mockup block layout -->
                 <button id="fake-checkout-btn" class="w-full bg-[#ffc439] hover:bg-[#f2ba32] text-slate-900 font-bold py-3 rounded-xl transition text-xs tracking-wide flex items-center justify-center gap-1.5 shadow-sm">
-                    <svg class="w-4 h-4 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <svg class="w-4 h-4 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                     <span>Buy Now</span>
                 </button>
             </div>
-            <!-- ========================================================== -->
         </div>
     </aside>
 
     <script>
-        // ========== VIDEO CAROUSEL SETUP (reliable with images on sides) ==========
+        // ========== VIDEO CAROUSEL SETUP ==========
         const videoSources = [
             "Videos/pr-review1.mp4",
             "Videos/pr-review2.mp4",
@@ -451,50 +327,58 @@
             "Videos/pr-review4.mp4",
             "Videos/pr-review5.mp4"
         ];
-        let currentVideoIndex = 2; // center video (pr-review3.mp4) starts active
 
-        const imageLeft = document.getElementById('image-left');
-        const imageRight = document.getElementById('image-right');
+        const videoReviewDetails = [
+            { name: "Sarah K.", text: "Absolute game changer for hot weather." },
+            { name: "Marcus T.", text: "The mist is so ultra fine, it doesn't leave wet residue." },
+            { name: "Elena R.", text: "Whisper quiet brushless motor. Can use it during meetings." },
+            { name: "David L.", text: "The 20-minute fast charge USB-C battery is extremely reliable." },
+            { name: "Chloe P.", text: "Fast shipping indeed. Arrived super fast!" }
+        ];
+
+        let currentVideoIndex = 2;
+        const videoLeft = document.getElementById('video-left');
         const videoCenter = document.getElementById('video-center');
+        const videoRight = document.getElementById('video-right');
+        const reviewNameEl = document.getElementById('review-person-name');
+        const reviewTextEl = document.getElementById('review-person-text');
 
         function updateCarouselVideos() {
-            // Determine indices for left, center, right
             const leftIdx = currentVideoIndex - 1;
             const centerIdx = currentVideoIndex;
             const rightIdx = currentVideoIndex + 1;
 
-            // Update side images (using same poster for simplicity, or could use specific poster frames)
-            if (imageLeft) {
-                imageLeft.src = "Products/pr1.png"; // can be replaced with poster of left video if available
-                imageLeft.style.display = (leftIdx >= 0 && leftIdx < videoSources.length) ? 'block' : 'none';
-            }
-            if (imageRight) {
-                imageRight.src = "Products/pr1.png";
-                imageRight.style.display = (rightIdx >= 0 && rightIdx < videoSources.length) ? 'block' : 'none';
-            }
-
-            // Update center video source
-            if (videoCenter) {
-                videoCenter.pause();
-                const source = videoCenter.querySelector('source');
-                if (source && centerIdx >= 0 && centerIdx < videoSources.length) {
-                    source.src = videoSources[centerIdx];
-                    videoCenter.load();
-                    videoCenter.style.display = 'block';
+            function setSource(videoEl, idx) {
+                if (!videoEl) return;
+                const source = videoEl.querySelector('source');
+                if (idx >= 0 && idx < videoSources.length) {
+                    source.src = videoSources[idx];
+                    videoEl.load();
+                    videoEl.style.display = 'block';
                 } else {
-                    videoCenter.style.display = 'none';
+                    source.src = '';
+                    videoEl.style.display = 'none';
                 }
             }
 
-            // Update active/faded classes on slots
-            const slots = document.querySelectorAll('.video-slot');
-            if (slots.length >= 3) {
-                slots[0].classList.remove('active'); slots[0].classList.add('faded');
-                slots[1].classList.remove('faded'); slots[1].classList.add('active');
-                slots[2].classList.remove('active'); slots[2].classList.add('faded');
-            }
+            [videoLeft, videoCenter, videoRight].forEach(v => { if(v) v.pause(); });
+            setSource(videoLeft, leftIdx);
+            setSource(videoCenter, centerIdx);
+            setSource(videoRight, rightIdx);
 
-            // Update play button state
+            setTimeout(() => {
+                const slots = document.querySelectorAll('.video-slot');
+                if (slots.length >= 3) {
+                    slots[0].classList.remove('active'); slots[0].classList.add('faded');
+                    slots[1].classList.remove('faded'); slots[1].classList.add('active');
+                    slots[2].classList.remove('active'); slots[2].classList.add('faded');
+                }
+            }, 10);
+
+            const details = videoReviewDetails[centerIdx];
+            if (reviewNameEl) reviewNameEl.textContent = details.name;
+            if (reviewTextEl) reviewTextEl.textContent = `"${details.text}"`;
+
             const playIcon = document.getElementById('play-icon');
             const pauseIcon = document.getElementById('pause-icon');
             if (videoCenter) {
@@ -515,50 +399,52 @@
             updateCarouselVideos();
         }
 
-        // Swipe detection for touch devices on the carousel wrapper
-        let touchStartX = 0;
-        let touchStartY = 0;
-
+        let touchStartX = 0, touchStartY = 0;
         function initSwipe() {
-            const carouselWrapper = document.getElementById('video-carousel-wrapper');
-            if (!carouselWrapper) return;
-
-            carouselWrapper.addEventListener('touchstart', (e) => {
+            const carousel = document.getElementById('video-carousel-wrapper');
+            if (!carousel) return;
+            carousel.addEventListener('touchstart', (e) => {
                 touchStartX = e.changedTouches[0].screenX;
                 touchStartY = e.changedTouches[0].screenY;
             }, {passive: true});
-
-            carouselWrapper.addEventListener('touchend', (e) => {
-                const touchEndX = e.changedTouches[0].screenX;
-                const touchEndY = e.changedTouches[0].screenY;
-                handleSwipe(touchEndX, touchEndY);
+            carousel.addEventListener('touchend', (e) => {
+                const endX = e.changedTouches[0].screenX;
+                const endY = e.changedTouches[0].screenY;
+                handleSwipe(endX, endY);
             }, {passive: true});
         }
-
         function handleSwipe(endX, endY) {
-            const swipeThreshold = 50;
             const deltaX = endX - touchStartX;
             const deltaY = endY - touchStartY;
-
-            // Only trigger if horizontal swipe is dominant
-            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
-                if (deltaX < 0) {
-                    // Swipe left -> next video
-                    changeVideo(1);
-                } else {
-                    // Swipe right -> previous video
-                    changeVideo(-1);
-                }
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+                if (deltaX < 0) changeVideo(1);
+                else changeVideo(-1);
             }
         }
 
-        // ========== DYNAMIC REVIEWS ==========
+        function toggleVideoPlayback() {
+            const video = document.getElementById('video-center');
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
+            if (!video) return;
+            if (video.paused) {
+                video.play();
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            } else {
+                video.pause();
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            }
+        }
+
+        // ========== STATIC REVIEW CARDS ==========
         const REVIEWS = [
             { name: "Sarah K.", text: "Absolute game changer for hot weather.", verified: true },
             { name: "Marcus T.", text: "The mist is so ultra fine, it doesn't leave wet residue.", verified: true },
             { name: "Elena R.", text: "Whisper quiet brushless motor. Can use it during meetings.", verified: true },
-            { name: "David L.", text: "The 12-hour fast charge USB-C battery is extremely reliable.", verified: true },
-            { name: "Chloe P.", text: "Fast shipping indeed. Arrived in less than 24h!", verified: true }
+            { name: "David L.", text: "The 20-minute fast charge USB-C battery is extremely reliable.", verified: true },
+            { name: "Chloe P.", text: "Fast shipping indeed. Arrived super fast!", verified: true }
         ];
 
         function renderReviews() {
@@ -584,30 +470,23 @@
             });
         }
 
-        // ========== SINGLE REMAINING PRODUCT ==========
-        const PRODUCTS = [
-            {
-                id: "mister_pro_mini",
-                name: "Mister Pro Mini",
-                category: "Fans",
-                price: 34.99,
-                originalPrice: 49.99,
-                image: "Products/pr1.png"
-            }
-        ];
+        // ========== PRODUCTS & CART ==========
+        const PRODUCTS = [{
+            id: "mister_pro_mini",
+            name: "Mister Pro Mini",
+            category: "Fans",
+            price: 34.99,
+            originalPrice: 49.99,
+            image: "Products/pr1.png"
+        }];
 
-        // ========== CART STATE ==========
         let cart = [];
-
-        // DOM elements
         let productGrid, cartItemsContainer, cartItemsList, emptyCartMessage, cartFilledContent, cartBadgeHeader, cartTotalSpan;
 
-        // Slide Drawer Animation Visibility Toggles
         function toggleCartDrawer(open) {
             const drawer = document.getElementById('cart-drawer');
             const overlay = document.getElementById('cart-drawer-overlay');
             if(!drawer || !overlay) return;
-
             if (open) {
                 overlay.classList.remove('hidden');
                 setTimeout(() => {
@@ -617,45 +496,18 @@
             } else {
                 drawer.classList.add('translate-x-full');
                 overlay.classList.add('opacity-0');
-                setTimeout(() => {
-                    overlay.classList.add('hidden');
-                }, 300);
+                setTimeout(() => overlay.classList.add('hidden'), 300);
             }
         }
 
-        // Play and pause handling for the center video
-        function toggleVideoPlayback() {
-            const video = document.getElementById('video-center');
-            const playIcon = document.getElementById('play-icon');
-            const pauseIcon = document.getElementById('pause-icon');
-            if (!video) return;
-
-            if (video.paused) {
-                video.play();
-                playIcon.classList.add('hidden');
-                pauseIcon.classList.remove('hidden');
-            } else {
-                video.pause();
-                playIcon.classList.remove('hidden');
-                pauseIcon.classList.add('hidden');
-            }
-        }
-
-        // Generate the Catalog HTML elements (With an explicit, premium Add to Cart button layout)
         function renderCatalog() {
             productGrid.innerHTML = '';
             PRODUCTS.forEach(product => {
                 const itemHTML = `
                     <div class="group flex flex-col bg-white p-4 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 mx-auto w-full max-w-sm">
-                        <!-- Image Layout Frame -->
                         <div class="relative aspect-square w-full overflow-hidden rounded-2xl bg-[#f4f4f6] cursor-pointer" onclick="addToCartById('${product.id}')">
-                            <img src="${product.image}" 
-                                 alt="${product.name}" 
-                                 class="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-                                 onerror="this.src='https://placehold.co/400x400?text=${encodeURIComponent(product.name)}'">
+                            <img src="${product.image}" alt="${product.name}" class="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://placehold.co/400x400?text=${encodeURIComponent(product.name)}'">
                         </div>
-                        
-                        <!-- Details Content (Bottom-Left title alignment + Bottom-Right Price setup) -->
                         <div class="mt-4 flex justify-between items-start">
                             <div>
                                 <h3 class="font-extrabold text-sm tracking-wider uppercase text-slate-950">${product.name}</h3>
@@ -666,12 +518,8 @@
                                 <p class="text-xs text-slate-400 line-through mt-0.5">$${product.originalPrice.toFixed(2)}</p>
                             </div>
                         </div>
-
-                        <!-- Explicit Add To Cart Button integrated directly into each product card -->
                         <button onclick="addToCartById('${product.id}')" class="mt-4 w-full bg-slate-900 hover:bg-black text-white text-xs font-bold py-3 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm active:scale-[0.98]">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path>
-                            </svg>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
                             <span>Add to Cart</span>
                         </button>
                     </div>
@@ -682,11 +530,9 @@
 
         function updateCartUI() {
             const totalUnits = cart.reduce((acc, item) => acc + item.quantity, 0);
-            
             if (cart.length === 0) {
                 emptyCartMessage.classList.remove('hidden');
                 cartFilledContent.classList.add('hidden');
-                // Hide badge completely
                 if (cartBadgeHeader) {
                     cartBadgeHeader.classList.add('hidden');
                     cartBadgeHeader.innerText = '0';
@@ -695,8 +541,6 @@
             } else {
                 emptyCartMessage.classList.add('hidden');
                 cartFilledContent.classList.remove('hidden');
-                
-                // Render list items
                 cartItemsList.innerHTML = '';
                 cart.forEach(item => {
                     const rowHTML = `
@@ -709,23 +553,19 @@
                                     <span class="text-[10px] text-slate-400">(Qty: ${item.quantity})</span>
                                 </div>
                             </div>
-                            <!-- Quantity Controls & Delete Buttons -->
                             <div class="flex items-center gap-2">
                                 <button onclick="changeQuantity('${item.id}', -1)" class="bg-white border hover:bg-slate-100 text-slate-600 p-1.5 rounded-lg transition text-xs font-bold">-</button>
                                 <button onclick="changeQuantity('${item.id}', 1)" class="bg-white border hover:bg-slate-100 text-slate-600 p-1.5 rounded-lg transition text-xs font-bold">+</button>
                                 <button onclick="removeFromCart('${item.id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-600 p-1.5 rounded-xl transition">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                 </button>
                             </div>
                         </div>
                     `;
                     cartItemsList.insertAdjacentHTML('beforeend', rowHTML);
                 });
-
-                // Calculate total
                 const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
                 if (cartTotalSpan) cartTotalSpan.innerText = `$${subtotal.toFixed(2)}`;
-                // Show badge with total units (centered now because of flex)
                 if (cartBadgeHeader) {
                     cartBadgeHeader.innerText = totalUnits;
                     cartBadgeHeader.classList.remove('hidden');
@@ -733,40 +573,28 @@
             }
         }
 
-        // ===== CART QUANTITY MAX 1 =====
         function addToCartById(productId) {
             const product = PRODUCTS.find(p => p.id === productId);
             if (!product) return;
-
             const existingItem = cart.find(item => item.id === productId);
             if (existingItem) {
-                // Already in cart, max 1
                 showToast(`${product.name} is already in your cart (limit 1).`);
                 toggleCartDrawer(true);
                 return;
             } else {
                 cart.push({ ...product, quantity: 1 });
             }
-
             updateCartUI();
             showToast(`${product.name} added to cart!`);
-            toggleCartDrawer(true); 
+            toggleCartDrawer(true);
         }
 
         function changeQuantity(productId, change) {
             const item = cart.find(item => item.id === productId);
             if (!item) return;
-
             let newQuantity = item.quantity + change;
-            // Cap at 1
-            if (newQuantity > 1) {
-                newQuantity = 1;
-                showToast("Maximum quantity per product is 1.");
-            }
-            if (newQuantity <= 0) {
-                removeFromCart(productId);
-                return;
-            }
+            if (newQuantity > 1) { newQuantity = 1; showToast("Maximum quantity per product is 1."); }
+            if (newQuantity <= 0) { removeFromCart(productId); return; }
             item.quantity = newQuantity;
             updateCartUI();
         }
@@ -774,7 +602,7 @@
         function removeFromCart(productId) {
             cart = cart.filter(item => item.id !== productId);
             updateCartUI();
-            showToast(`Item removed from cart.`);
+            showToast("Item removed from cart.");
         }
 
         function showToast(msg) {
@@ -789,29 +617,25 @@
             }, 2500);
         }
 
-        // ========== FAKE SUPPORT FORM ==========
         window.fakeSupportSubmit = function() {
-            const nameInput = document.getElementById('support-name');
-            const emailInput = document.getElementById('support-email');
-            const messageInput = document.getElementById('support-message');
-            if (nameInput && emailInput && messageInput &&
-                nameInput.value.trim() !== "" &&
-                emailInput.value.trim() !== "" &&
-                messageInput.value.trim() !== "") {
-                showToast(`Thanks ${nameInput.value.split(' ')[0]}! Your message has been received.`);
-                nameInput.value = '';
-                emailInput.value = '';
-                messageInput.value = '';
+            const name = document.getElementById('support-name')?.value.trim();
+            const email = document.getElementById('support-email')?.value.trim();
+            const message = document.getElementById('support-message')?.value.trim();
+            if (name && email && message) {
+                showToast(`Thanks ${name.split(' ')[0]}! Your message has been received.`);
+                document.getElementById('support-name').value = '';
+                document.getElementById('support-email').value = '';
+                document.getElementById('support-message').value = '';
             } else {
                 showToast("Please fill out all fields.");
             }
         };
 
-        // ========== NAVIGATION & MOBILE TOGGLE & HOVER LOGIC ==========
+        // Navigation & mobile menu
         let currentView = 'home';
         function navigateTo(viewName) {
             currentView = viewName;
-            document.querySelectorAll('.view-panel').forEach(panel => panel.classList.add('hidden'));
+            document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
             const target = document.getElementById(`view-${viewName}`);
             if (target) target.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -831,7 +655,6 @@
                 mobileMenu.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
             }
         }
-
         function closeMobileMenu() {
             if (mobileMenu && mobileMenuBtn) {
                 mobileMenuBtn.classList.remove('menu-open');
@@ -839,27 +662,18 @@
                 mobileMenu.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
             }
         }
-
         function toggleMobileMenu() {
-            if (mobileMenu && mobileMenu.classList.contains('pointer-events-none')) {
-                openMobileMenu();
-            } else {
-                closeMobileMenu();
-            }
+            if (mobileMenu && mobileMenu.classList.contains('pointer-events-none')) openMobileMenu();
+            else closeMobileMenu();
         }
 
         if (menuBtnContainer && mobileMenu) {
             menuBtnContainer.addEventListener('mouseenter', openMobileMenu);
             mobileMenu.addEventListener('mouseenter', openMobileMenu);
-            menuBtnContainer.addEventListener('mouseleave', () => {
-                closeTimeout = setTimeout(closeMobileMenu, 350);
-            });
-            mobileMenu.addEventListener('mouseleave', () => {
-                closeTimeout = setTimeout(closeMobileMenu, 350);
-            });
+            menuBtnContainer.addEventListener('mouseleave', () => { closeTimeout = setTimeout(closeMobileMenu, 350); });
+            mobileMenu.addEventListener('mouseleave', () => { closeTimeout = setTimeout(closeMobileMenu, 350); });
         }
 
-        // ========== EVENT LISTENERS & INIT ==========
         document.addEventListener('DOMContentLoaded', () => {
             productGrid = document.getElementById('product-grid');
             cartItemsContainer = document.getElementById('cart-items-container');
@@ -871,25 +685,16 @@
             
             renderCatalog();
             renderReviews();
-            
             cart = [];
             updateCartUI();
-            
-            const fakeCheckout = document.getElementById('fake-checkout-btn');
-            if (fakeCheckout) {
-                fakeCheckout.addEventListener('click', () => {
-                    if (cart.length === 0) {
-                        showToast("Your cart is empty — add some products first.");
-                    } else {
-                        showToast("PayPal checkout simulation... Buy Now initialized.");
-                    }
-                });
-            }
 
-            // Initialize carousel and swipe
+            document.getElementById('fake-checkout-btn')?.addEventListener('click', () => {
+                if (cart.length === 0) showToast("Your cart is empty — add some products first.");
+                else showToast("PayPal checkout simulation... Buy Now initialized.");
+            });
+
             updateCarouselVideos();
             initSwipe();
-
             navigateTo('home');
         });
     </script>
