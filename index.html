@@ -126,17 +126,17 @@
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                             </button>
 
-                            <!-- MODIFIED: bigger videos on mobile, tighter padding -->
                             <div class="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 w-full px-2 sm:px-6 md:px-10">
-                                <div class="video-slot faded flex-1 max-w-[110px] sm:max-w-[130px] md:max-w-[140px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 relative">
+                                <!-- Left side video – hidden on mobile -->
+                                <div class="video-slot faded flex-1 max-w-[110px] sm:max-w-[130px] md:max-w-[140px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 relative hidden sm:flex">
                                     <video id="video-left" class="absolute inset-0 w-full h-full object-cover" loop muted playsinline>
                                         <source src="" type="video/mp4">
                                     </video>
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
                                 </div>
 
-                                <!-- MODIFIED: bigger center video on mobile -->
-                                <div class="video-slot active flex-1 max-w-[260px] sm:max-w-[300px] md:max-w-[360px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-xl border-2 border-cyan-400/60 relative z-10">
+                                <!-- Center video – bigger on mobile (85vw) -->
+                                <div class="video-slot active flex-1 max-w-[85vw] sm:max-w-[300px] md:max-w-[360px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-xl border-2 border-cyan-400/60 relative z-10">
                                     <video id="video-center" class="absolute inset-0 w-full h-full object-cover" loop playsinline>
                                         <source src="Videos/pr-review3.mp4" type="video/mp4">
                                     </video>
@@ -163,7 +163,8 @@
                                     </div>
                                 </div>
 
-                                <div class="video-slot faded flex-1 max-w-[110px] sm:max-w-[130px] md:max-w-[140px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 relative">
+                                <!-- Right side video – hidden on mobile -->
+                                <div class="video-slot faded flex-1 max-w-[110px] sm:max-w-[130px] md:max-w-[140px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 relative hidden sm:flex">
                                     <video id="video-right" class="absolute inset-0 w-full h-full object-cover" loop muted playsinline>
                                         <source src="" type="video/mp4">
                                     </video>
@@ -312,8 +313,8 @@
                 <span id="cart-total">$0.00</span>
             </div>
             <div id="paypal-button-container" class="w-full">
-                <!-- MODIFIED: raised Buy Now button on mobile (bigger shadow + margin) -->
-                <button id="fake-checkout-btn" class="w-full bg-[#ffc439] hover:bg-[#f2ba32] text-slate-900 font-bold py-3 rounded-xl transition text-xs tracking-wide flex items-center justify-center gap-1.5 mb-2 sm:mb-0 shadow-lg md:shadow-sm">
+                <!-- Buy Now – raised a lot on mobile with mb-6 + shadow-lg -->
+                <button id="fake-checkout-btn" class="w-full bg-[#ffc439] hover:bg-[#f2ba32] text-slate-900 font-bold py-3 rounded-xl transition text-xs tracking-wide flex items-center justify-center gap-1.5 mb-6 sm:mb-2 shadow-lg md:shadow-sm">
                     <svg class="w-4 h-4 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                     <span>Buy Now</span>
                 </button>
