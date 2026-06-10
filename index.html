@@ -6,7 +6,7 @@
     <title>Mistly Fans | Premium Misting Fans & Humidifiers</title>
     <link class="rounded-full" rel="icon" type="image/png" href="Images/favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
@@ -71,7 +71,7 @@
                         <img src="Images/logo.png" alt="Mistly" class="h-7 w-7 object-contain" onerror="this.style.display='none'">
                     </a>
                     <span onclick="navigateTo('home')" class="font-extrabold text-xl md:text-2xl tracking-tight cursor-pointer select-none">
-                        Mistly<span class="text-cyan-500">Fans</span><span class="text-[10px] align-super">™</span>
+                        Mistly<span class="text-[#0B2A5E]">Fans</span><span class="text-[10px] align-super">™</span>
                     </span>
                 </div>
             </div>
@@ -99,25 +99,23 @@
     <main class="flex-grow">
         <section id="view-home" class="view-panel transition-opacity duration-300">
             <div class="max-w-7xl mx-auto px-5 py-8 md:py-12">
-                <!-- HERO SECTION with product image overlay -->
-                <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl overflow-hidden shadow-xl p-8 md:p-12 relative">
+                <!-- HERO SECTION – product image centred at top -->
+                <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl overflow-hidden shadow-xl p-8 md:p-12 flex flex-col items-center text-center">
+                    <img src="Products/pr1.png" class="w-48 h-48 md:w-56 md:h-56 object-contain rounded-2xl mb-6" alt="Mister Pro Mini" onerror="this.style.display='none'">
                     <h1 class="text-3xl md:text-5xl font-black leading-tight">High Performance<br>Misting Fans.</h1>
                     <p class="text-slate-300 text-lg mt-3 max-w-xl">Experience Mister Pro Mini — pocket-sized, premium mist cooling.</p>
-                    <button onclick="navigateTo('shop')" class="mt-6 bg-[#ec4899] hover:bg-pink-700 text-white rounded-full px-6 py-3 font-bold transition flex items-center gap-2 relative z-10">
+                    <button onclick="navigateTo('shop')" class="mt-6 bg-[#ec4899] hover:bg-pink-700 text-white rounded-full px-6 py-3 font-bold transition flex items-center gap-2">
                         <span>Shop Now</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </button>
-                    <!-- Product image with smooth corners, clickable -->
-                    <img src="Images/pr1.png" onclick="navigateTo('shop')" class="absolute bottom-0 right-0 w-40 h-40 md:w-48 md:h-48 object-contain rounded-2xl cursor-pointer hover:scale-105 transition-transform hidden md:block z-10" alt="Mister Pro Mini" onerror="this.style.display='none'">
                 </div>
 
-                <!-- Video Carousel -->
+                <!-- Video Carousel (unchanged) -->
                 <div class="mt-20 border-t border-slate-100 pt-16">
                     <div class="text-center mb-10">
                         <h3 class="text-2xl md:text-3xl font-black text-slate-900 mt-3">See it in action</h3>
-                        <p class="text-slate-500 text-sm max-w-md mx-auto mt-2">Watch real reviews from different users – tap the center to play.</p>
+                        <p class="text-slate-500 text-sm max-w-md mx-auto mt-2">Watch real reviews from different users – tap the centre to play.</p>
                     </div>
-
                     <div class="flex justify-center mb-16">
                         <div class="relative w-full max-w-2xl mx-auto flex items-center justify-center" id="video-carousel-wrapper">
                             <button onclick="changeVideo(-1)" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center border border-slate-200 hover:bg-white text-slate-700 shadow-md transition">
@@ -126,21 +124,13 @@
                             <button onclick="changeVideo(1)" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center border border-slate-200 hover:bg-white text-slate-700 shadow-md transition">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                             </button>
-
                             <div class="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 w-full px-2 sm:px-6 md:px-10">
-                                <!-- Left side video – hidden on mobile -->
                                 <div class="video-slot faded flex-1 max-w-[110px] sm:max-w-[130px] md:max-w-[140px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 relative hidden sm:flex">
-                                    <video id="video-left" class="absolute inset-0 w-full h-full object-cover" loop muted playsinline>
-                                        <source src="" type="video/mp4">
-                                    </video>
+                                    <video id="video-left" class="absolute inset-0 w-full h-full object-cover" loop muted playsinline><source src="" type="video/mp4"></video>
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
                                 </div>
-
-                                <!-- Center video – bigger on mobile (85vw) -->
                                 <div class="video-slot active flex-1 max-w-[85vw] sm:max-w-[300px] md:max-w-[360px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-xl border-2 border-cyan-400/60 relative z-10">
-                                    <video id="video-center" class="absolute inset-0 w-full h-full object-cover" loop playsinline>
-                                        <source src="Videos/pr-review3.mp4" type="video/mp4">
-                                    </video>
+                                    <video id="video-center" class="absolute inset-0 w-full h-full object-cover" loop playsinline><source src="Videos/pr-review3.mp4" type="video/mp4"></video>
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none"></div>
                                     <div class="absolute inset-0 flex items-center justify-center z-10">
                                         <button onclick="toggleVideoPlayback()" id="video-play-btn" class="w-12 h-12 bg-white/25 backdrop-blur-md rounded-full flex items-center justify-center border border-white/50 hover:bg-white hover:text-slate-900 text-white transition transform hover:scale-105 shadow-md">
@@ -163,22 +153,17 @@
                                         <p id="review-person-text" class="text-xs text-slate-300 line-clamp-2 mt-0.5">"Whisper quiet brushless motor. Can use it during meetings."</p>
                                     </div>
                                 </div>
-
-                                <!-- Right side video – hidden on mobile -->
                                 <div class="video-slot faded flex-1 max-w-[110px] sm:max-w-[130px] md:max-w-[140px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 relative hidden sm:flex">
-                                    <video id="video-right" class="absolute inset-0 w-full h-full object-cover" loop muted playsinline>
-                                        <source src="" type="video/mp4">
-                                    </video>
+                                    <video id="video-right" class="absolute inset-0 w-full h-full object-cover" loop muted playsinline><source src="" type="video/mp4"></video>
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div id="reviews-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
                 </div>
 
-                <!-- Mistly Guarantee Section -->
+                <!-- Mistly Guarantee Section (unchanged) -->
                 <div class="mt-20 border-t border-slate-100 pt-16">
                     <div class="text-center mb-12">
                         <span class="text-xs font-bold text-[#ec4899] bg-pink-50 px-3 py-1.5 rounded-full uppercase tracking-wider">Our Standards</span>
@@ -209,7 +194,7 @@
                     </div>
                 </div>
 
-                <!-- Featured Favorites -->
+                <!-- Featured Favorites (unchanged) -->
                 <div class="mt-20 border-t border-slate-100 pt-16">
                     <div class="text-center mb-10">
                         <span class="text-xs font-bold text-[#bd1d1d] bg-red-50 px-3 py-1.5 rounded-full uppercase tracking-wider">Hot Product</span>
@@ -241,7 +226,7 @@
             </div>
         </section>
 
-        <!-- Shop View -->
+        <!-- Shop View (unchanged) -->
         <section id="view-shop" class="view-panel hidden transition-opacity duration-300">
             <div class="max-w-7xl mx-auto px-5 py-8 lg:py-12">
                 <div class="mb-12 text-center lg:text-center">
@@ -252,7 +237,7 @@
             </div>
         </section>
 
-        <!-- Support View -->
+        <!-- Support View (unchanged) -->
         <section id="view-support" class="view-panel hidden transition-opacity duration-300">
             <div class="max-w-3xl mx-auto px-5 py-12 md:py-16">
                 <div class="text-center mb-10">
@@ -286,7 +271,7 @@
         </div>
     </footer>
 
-    <!-- Cart Overlay & Drawer -->
+    <!-- Cart Drawer -->
     <div id="cart-drawer-overlay" onclick="toggleCartDrawer(false)" class="fixed inset-0 bg-black/40 z-40 hidden opacity-0 transition-opacity duration-300"></div>
     <aside id="cart-drawer" class="fixed top-0 right-0 h-screen w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">
@@ -306,6 +291,10 @@
             </div>
             <div id="cart-filled-content" class="hidden space-y-4">
                 <div id="cart-items-list" class="space-y-4"></div>
+                <button onclick="checkoutWithStripe()" class="mt-4 w-full bg-[#ec4899] hover:bg-pink-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-md flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                    Checkout
+                </button>
             </div>
         </div>
         <div class="p-5 bg-slate-50 border-t border-slate-100">
@@ -313,18 +302,27 @@
                 <span>Subtotal</span>
                 <span id="cart-total">$0.00</span>
             </div>
-            <div id="paypal-button-container" class="w-full flex justify-center">
-                <!-- Stripe Buy Button – now centered -->
-                <stripe-buy-button
-                    buy-button-id="buy_btn_1TgpPNLPY8OdCEfEL4Qh1cDj"
-                    publishable-key="pk_live_51Tg73MLPY8OdCEfEmm3Iye3yPWK53AsKlziuyKtZce6TKjbqjKHgolcrjiDyhfWbtDhJzK6ceHoOGJFClAoEUhHo00W9bI5wfz"
-                ></stripe-buy-button>
-            </div>
         </div>
     </aside>
 
     <script>
-        // ========== VIDEO CAROUSEL SETUP ==========
+        // Stripe Initialisation
+        const stripe = Stripe('pk_live_51Tg73MLPY8OdCEfEmm3Iye3yPWK53AsKlziuyKtZce6TKjbqjKHgolcrjiDyhfWbtDhJzK6ceHoOGJFClAoEUhHo00W9bI5wfz'); // Use your publishable key
+
+        // PRODUCT CATALOG WITH STRIPE PRICE IDs
+        const PRODUCTS = [
+            {
+                id: "mister_pro_mini",
+                name: "Mister Pro Mini",
+                category: "Fans",
+                price: 34.99,
+                originalPrice: 49.99,
+                image: "Products/pr1.png",
+                stripePriceId: "price_XXXXXXXXXXXX"   // REPLACE with your real Price ID from Stripe Dashboard
+            }
+        ];
+
+        // Video carousel (unchanged)
         const videoSources = [
             "Videos/pr-review1.mp4",
             "Videos/pr-review2.mp4",
@@ -332,7 +330,6 @@
             "Videos/pr-review4.mp4",
             "Videos/pr-review5.mp4"
         ];
-
         const videoReviewDetails = [
             { name: "Sarah K.", text: "Absolute game changer for hot weather." },
             { name: "Marcus T.", text: "The mist is so ultra fine, it doesn't leave wet residue." },
@@ -340,7 +337,6 @@
             { name: "David L.", text: "The 20-minute fast charge USB-C battery is extremely reliable." },
             { name: "Chloe P.", text: "Fast shipping indeed. Arrived super fast!" }
         ];
-
         let currentVideoIndex = 2;
         const videoLeft = document.getElementById('video-left');
         const videoCenter = document.getElementById('video-center');
@@ -352,7 +348,6 @@
             const leftIdx = currentVideoIndex - 1;
             const centerIdx = currentVideoIndex;
             const rightIdx = currentVideoIndex + 1;
-
             function setSource(videoEl, idx) {
                 if (!videoEl) return;
                 const source = videoEl.querySelector('source');
@@ -365,12 +360,10 @@
                     videoEl.style.display = 'none';
                 }
             }
-
             [videoLeft, videoCenter, videoRight].forEach(v => { if(v) v.pause(); });
             setSource(videoLeft, leftIdx);
             setSource(videoCenter, centerIdx);
             setSource(videoRight, rightIdx);
-
             setTimeout(() => {
                 const slots = document.querySelectorAll('.video-slot');
                 if (slots.length >= 3) {
@@ -379,11 +372,9 @@
                     slots[2].classList.remove('active'); slots[2].classList.add('faded');
                 }
             }, 10);
-
             const details = videoReviewDetails[centerIdx];
             if (reviewNameEl) reviewNameEl.textContent = details.name;
             if (reviewTextEl) reviewTextEl.textContent = `"${details.text}"`;
-
             const playIcon = document.getElementById('play-icon');
             const pauseIcon = document.getElementById('pause-icon');
             if (videoCenter) {
@@ -443,7 +434,7 @@
             }
         }
 
-        // ========== STATIC REVIEW CARDS ==========
+        // Static reviews
         const REVIEWS = [
             { name: "Sarah K.", text: "Absolute game changer for hot weather.", verified: true },
             { name: "Marcus T.", text: "The mist is so ultra fine, it doesn't leave wet residue.", verified: true },
@@ -451,7 +442,6 @@
             { name: "David L.", text: "The 20-minute fast charge USB-C battery is extremely reliable.", verified: true },
             { name: "Chloe P.", text: "Fast shipping indeed. Arrived super fast!", verified: true }
         ];
-
         function renderReviews() {
             const container = document.getElementById('reviews-grid');
             if (!container) return;
@@ -475,18 +465,9 @@
             });
         }
 
-        // ========== PRODUCTS & CART ==========
-        const PRODUCTS = [{
-            id: "mister_pro_mini",
-            name: "Mister Pro Mini",
-            category: "Fans",
-            price: 34.99,
-            originalPrice: 49.99,
-            image: "Products/pr1.png"
-        }];
-
+        // Cart logic
         let cart = [];
-        let productGrid, cartItemsContainer, cartItemsList, emptyCartMessage, cartFilledContent, cartBadgeHeader, cartTotalSpan;
+        let productGrid, cartItemsList, emptyCartMessage, cartFilledContent, cartBadgeHeader, cartTotalSpan;
 
         function toggleCartDrawer(open) {
             const drawer = document.getElementById('cart-drawer');
@@ -506,6 +487,7 @@
         }
 
         function renderCatalog() {
+            if (!productGrid) return;
             productGrid.innerHTML = '';
             PRODUCTS.forEach(product => {
                 const itemHTML = `
@@ -531,6 +513,42 @@
                 `;
                 productGrid.insertAdjacentHTML('beforeend', itemHTML);
             });
+        }
+
+        function addToCartById(productId) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    image: product.image,
+                    price: product.price,
+                    stripePriceId: product.stripePriceId,
+                    quantity: 1
+                });
+            }
+            updateCartUI();
+            showToast(`${product.name} added to cart.`);
+        }
+
+        function changeQuantity(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(i => i.id !== productId);
+            updateCartUI();
+            showToast("Item removed.");
         }
 
         function updateCartUI() {
@@ -569,7 +587,7 @@
                     `;
                     cartItemsList.insertAdjacentHTML('beforeend', rowHTML);
                 });
-                const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+                const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
                 if (cartTotalSpan) cartTotalSpan.innerText = `$${subtotal.toFixed(2)}`;
                 if (cartBadgeHeader) {
                     cartBadgeHeader.innerText = totalUnits;
@@ -578,36 +596,30 @@
             }
         }
 
-        function addToCartById(productId) {
-            const product = PRODUCTS.find(p => p.id === productId);
-            if (!product) return;
-            const existingItem = cart.find(item => item.id === productId);
-            if (existingItem) {
-                showToast(`${product.name} is already in your cart (limit 1).`);
-                toggleCartDrawer(true);
+        async function checkoutWithStripe() {
+            if (cart.length === 0) {
+                showToast("Your cart is empty.");
                 return;
-            } else {
-                cart.push({ ...product, quantity: 1 });
             }
-            updateCartUI();
-            showToast(`${product.name} added to cart!`);
-            toggleCartDrawer(true);
-        }
 
-        function changeQuantity(productId, change) {
-            const item = cart.find(item => item.id === productId);
-            if (!item) return;
-            let newQuantity = item.quantity + change;
-            if (newQuantity > 1) { newQuantity = 1; showToast("Maximum quantity per product is 1."); }
-            if (newQuantity <= 0) { removeFromCart(productId); return; }
-            item.quantity = newQuantity;
-            updateCartUI();
-        }
+            const lineItems = cart.map(item => ({
+                price: item.stripePriceId,
+                quantity: item.quantity
+            }));
 
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            updateCartUI();
-            showToast("Item removed from cart.");
+            try {
+                const { error } = await stripe.redirectToCheckout({
+                    lineItems: lineItems,
+                    mode: 'payment',
+                    successUrl: window.location.origin + '/Checkout/success.html',
+                    cancelUrl: window.location.origin + '/Checkout/cancel.html',
+                });
+                if (error) {
+                    showToast("Checkout error: " + error.message);
+                }
+            } catch (err) {
+                showToast("Something went wrong. Please try again.");
+            }
         }
 
         function showToast(msg) {
@@ -681,19 +693,16 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             productGrid = document.getElementById('product-grid');
-            cartItemsContainer = document.getElementById('cart-items-container');
             cartItemsList = document.getElementById('cart-items-list');
             emptyCartMessage = document.getElementById('empty-cart-message');
             cartFilledContent = document.getElementById('cart-filled-content');
             cartBadgeHeader = document.getElementById('cart-badge-header');
             cartTotalSpan = document.getElementById('cart-total');
-            
+
             renderCatalog();
             renderReviews();
             cart = [];
             updateCartUI();
-
-            // Stripe buy button is handled automatically – no manual listener needed
 
             updateCarouselVideos();
             initSwipe();
