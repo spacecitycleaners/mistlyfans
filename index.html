@@ -6,7 +6,6 @@
     <title>Mistly Fans | Premium Misting Fans & Humidifiers</title>
     <link class="rounded-full" rel="icon" type="image/png" href="Images/favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://js.stripe.com/v3/"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
@@ -33,6 +32,24 @@
         .video-slot.faded { opacity: 0.45; transform: scale(0.88); pointer-events: none; }
         .video-slot.active { opacity: 1; transform: scale(1); pointer-events: auto; }
         #video-carousel-wrapper { touch-action: pan-y; }
+
+        /* iframe modal styles */
+        .modal-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            transform: scale(0.95) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
     </style>
 </head>
 <body class="text-slate-800 antialiased flex flex-col min-h-screen relative overflow-x-hidden">
@@ -110,7 +127,7 @@
                     </button>
                 </div>
 
-                <!-- Video Carousel (unchanged) -->
+                <!-- Video Carousel -->
                 <div class="mt-20 border-t border-slate-100 pt-16">
                     <div class="text-center mb-10">
                         <h3 class="text-2xl md:text-3xl font-black text-slate-900 mt-3">See it in action</h3>
@@ -163,7 +180,7 @@
                     <div id="reviews-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"></div>
                 </div>
 
-                <!-- Mistly Guarantee Section (unchanged) -->
+                <!-- Mistly Guarantee Section -->
                 <div class="mt-20 border-t border-slate-100 pt-16">
                     <div class="text-center mb-12">
                         <span class="text-xs font-bold text-[#ec4899] bg-pink-50 px-3 py-1.5 rounded-full uppercase tracking-wider">Our Standards</span>
@@ -194,7 +211,7 @@
                     </div>
                 </div>
 
-                <!-- Featured Favorites (unchanged) -->
+                <!-- Featured Favorites -->
                 <div class="mt-20 border-t border-slate-100 pt-16">
                     <div class="text-center mb-10">
                         <span class="text-xs font-bold text-[#bd1d1d] bg-red-50 px-3 py-1.5 rounded-full uppercase tracking-wider">Hot Product</span>
@@ -226,7 +243,7 @@
             </div>
         </section>
 
-        <!-- Shop View (unchanged) -->
+        <!-- Shop View -->
         <section id="view-shop" class="view-panel hidden transition-opacity duration-300">
             <div class="max-w-7xl mx-auto px-5 py-8 lg:py-12">
                 <div class="mb-12 text-center lg:text-center">
@@ -237,7 +254,7 @@
             </div>
         </section>
 
-        <!-- Support View (unchanged) -->
+        <!-- Support View -->
         <section id="view-support" class="view-panel hidden transition-opacity duration-300">
             <div class="max-w-3xl mx-auto px-5 py-12 md:py-16">
                 <div class="text-center mb-10">
@@ -291,9 +308,10 @@
             </div>
             <div id="cart-filled-content" class="hidden space-y-4">
                 <div id="cart-items-list" class="space-y-4"></div>
-                <button onclick="checkoutWithStripe()" class="mt-4 w-full bg-[#ec4899] hover:bg-pink-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-md flex items-center justify-center gap-2">
+                <!-- Buy Now button opens iframe modal -->
+                <button onclick="openCheckoutModal()" class="mt-4 w-full bg-[#ec4899] hover:bg-pink-700 text-white font-bold py-3 px-4 rounded-xl transition shadow-md flex items-center justify-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-                    Checkout
+                    Buy Now
                 </button>
             </div>
         </div>
@@ -305,11 +323,23 @@
         </div>
     </aside>
 
-    <script>
-        // Stripe Initialisation
-        const stripe = Stripe('pk_live_51Tg73MLPY8OdCEfEmm3Iye3yPWK53AsKlziuyKtZce6TKjbqjKHgolcrjiDyhfWbtDhJzK6ceHoOGJFClAoEUhHo00W9bI5wfz'); // Use your publishable key
+    <!-- Payment Modal with iframe -->
+    <div id="checkout-modal-overlay" class="modal-overlay fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4" onclick="closeCheckoutModal(event)">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between p-4 border-b border-slate-100">
+                <h3 class="font-bold text-slate-800">Secure Checkout</h3>
+                <button onclick="closeCheckoutModal()" class="p-1.5 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-50 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="flex-1 min-h-[500px]">
+                <iframe src="https://buy.stripe.com/dRm6oI60fbBf7xd7I0ds401" class="w-full h-full border-0" allowpaymentrequest></iframe>
+            </div>
+        </div>
+    </div>
 
-        // PRODUCT CATALOG WITH STRIPE PRICE IDs
+    <script>
+        // Product catalog (no Stripe Price ID needed)
         const PRODUCTS = [
             {
                 id: "mister_pro_mini",
@@ -317,12 +347,11 @@
                 category: "Fans",
                 price: 34.99,
                 originalPrice: 49.99,
-                image: "Products/pr1.png",
-                stripePriceId: "price_XXXXXXXXXXXX"   // REPLACE with your real Price ID from Stripe Dashboard
+                image: "Products/pr1.png"
             }
         ];
 
-        // Video carousel (unchanged)
+        // Video carousel
         const videoSources = [
             "Videos/pr-review1.mp4",
             "Videos/pr-review2.mp4",
@@ -465,7 +494,7 @@
             });
         }
 
-        // Cart logic
+        // Cart
         let cart = [];
         let productGrid, cartItemsList, emptyCartMessage, cartFilledContent, cartBadgeHeader, cartTotalSpan;
 
@@ -527,7 +556,6 @@
                     name: product.name,
                     image: product.image,
                     price: product.price,
-                    stripePriceId: product.stripePriceId,
                     quantity: 1
                 });
             }
@@ -596,30 +624,23 @@
             }
         }
 
-        async function checkoutWithStripe() {
+        // Show/hide checkout modal
+        function openCheckoutModal() {
             if (cart.length === 0) {
                 showToast("Your cart is empty.");
                 return;
             }
+            const overlay = document.getElementById('checkout-modal-overlay');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
 
-            const lineItems = cart.map(item => ({
-                price: item.stripePriceId,
-                quantity: item.quantity
-            }));
-
-            try {
-                const { error } = await stripe.redirectToCheckout({
-                    lineItems: lineItems,
-                    mode: 'payment',
-                    successUrl: window.location.origin + '/Checkout/success.html',
-                    cancelUrl: window.location.origin + '/Checkout/cancel.html',
-                });
-                if (error) {
-                    showToast("Checkout error: " + error.message);
-                }
-            } catch (err) {
-                showToast("Something went wrong. Please try again.");
-            }
+        function closeCheckoutModal(event) {
+            // if event exists and target is the overlay itself, close; otherwise only from close button
+            if (event && event.target !== document.getElementById('checkout-modal-overlay')) return;
+            const overlay = document.getElementById('checkout-modal-overlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
 
         function showToast(msg) {
