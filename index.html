@@ -113,8 +113,8 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </button>
 
-                    <!-- Product image for desktop (positioned to the far right, absolute, visible only on md and up) -->
-                    <img src="Products/pr1.png" alt="Mister Pro Mini" class="hidden md:block absolute bottom-4 right-4 w-40 h-40 md:w-48 md:h-48 object-contain rounded-2xl cursor-pointer hover:scale-105 transition-transform z-10" onerror="this.style.display='none'">
+                    <!-- Product image for desktop (now larger, with comfortable blue margin) -->
+                    <img src="Products/pr1.png" alt="Mister Pro Mini" class="hidden md:block absolute bottom-6 right-6 w-56 h-56 md:w-64 md:h-64 object-contain rounded-2xl cursor-pointer hover:scale-105 transition-transform z-10" onerror="this.style.display='none'">
                 </div>
 
                 <!-- Video Carousel -->
@@ -134,12 +134,10 @@
                             </button>
 
                             <div class="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 w-full px-2 sm:px-6 md:px-10">
-                                <!-- Left video -->
                                 <div class="video-slot faded flex-1 max-w-[110px] sm:max-w-[130px] md:max-w-[140px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 relative hidden sm:flex">
                                     <video id="video-left" class="absolute inset-0 w-full h-full object-cover" loop muted playsinline><source src="" type="video/mp4"></video>
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
                                 </div>
-                                <!-- Center video (active) -->
                                 <div class="video-slot active flex-1 max-w-[85vw] sm:max-w-[300px] md:max-w-[360px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-xl border-2 border-cyan-400/60 relative z-10">
                                     <video id="video-center" class="absolute inset-0 w-full h-full object-cover" loop playsinline><source src="Videos/pr-review3.mp4" type="video/mp4"></video>
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none"></div>
@@ -152,7 +150,7 @@
                                     <div class="absolute bottom-0 left-0 right-0 p-4 text-white z-10 pointer-events-none">
                                         <div class="flex items-center gap-2 mb-1.5">
                                             <div class="flex text-amber-400 gap-0.5">
-                                                <!-- Star SVGs -->
+                                                <!-- Stars -->
                                             </div>
                                             <span class="text-[9px] font-bold bg-white/20 px-1.5 py-0.5 rounded text-white">4.9</span>
                                         </div>
@@ -160,7 +158,6 @@
                                         <p id="review-person-text" class="text-xs text-slate-300 line-clamp-2 mt-0.5">"Whisper quiet brushless motor. Can use it during meetings."</p>
                                     </div>
                                 </div>
-                                <!-- Right video -->
                                 <div class="video-slot faded flex-1 max-w-[110px] sm:max-w-[130px] md:max-w-[140px] aspect-[9/16] bg-slate-950 rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 relative hidden sm:flex">
                                     <video id="video-right" class="absolute inset-0 w-full h-full object-cover" loop muted playsinline><source src="" type="video/mp4"></video>
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none"></div>
@@ -302,7 +299,7 @@
                 <div id="cart-items-list" class="space-y-4"></div>
             </div>
         </div>
-        <!-- Stripe Elements Checkout Form -->
+        <!-- Stripe Elements Checkout Form (scrollable inside cart-items-container for smaller screens) -->
         <div class="p-5 bg-slate-50 border-t border-slate-100">
             <div class="flex justify-between font-semibold text-slate-800 text-sm mb-4">
                 <span>Subtotal</span>
@@ -551,7 +548,7 @@
                 cart.forEach(item => {
                     const rowHTML = `
                         <div class="flex gap-4 items-center bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                            <img src="${item.image}" class="w-16 h-16 object-cover rounded-lg bg-white border p-1" onerror="this.src='https://placehold.co/64'">
+                            <img src="${item.image}" class="w-16 h-16 object-cover rounded-xl bg-white border p-1" onerror="this.src='https://placehold.co/64'">
                             <div class="flex-1">
                                 <h4 class="font-bold text-sm text-slate-800 uppercase tracking-tight">${item.name}</h4>
                                 <div class="flex items-center gap-2 mt-1">
@@ -577,7 +574,6 @@
                     cartBadgeHeader.classList.remove('hidden');
                 }
             }
-            // Re-initialize Stripe Elements after cart update
             if (typeof initializeStripeElements === 'function') {
                 initializeStripeElements();
             }
