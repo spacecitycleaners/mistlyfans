@@ -25,9 +25,9 @@
         .hamburger-line {
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .menu-open .line-top { transform: translateY(6px) rotate(45deg); }
+        .menu-open .line-top { transform: translateY(5px) rotate(45deg); }
         .menu-open .line-mid { opacity: 0; transform: scale(0); }
-        .menu-open .line-bot { transform: translateY(-6px) rotate(-45deg); }
+        .menu-open .line-bot { transform: translateY(-5px) rotate(-45deg); }
 
         .video-slot { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .video-slot.faded { opacity: 0.45; transform: scale(0.88); pointer-events: none; }
@@ -71,7 +71,7 @@
                         <img src="Images/logo.png" alt="Mistly" class="h-7 w-7 object-contain" onerror="this.style.display='none'">
                     </a>
                     <span onclick="navigateTo('home')" class="font-extrabold text-xl md:text-2xl tracking-tight cursor-pointer select-none">
-                        Mistly<span class="text-cyan-500">Fans</span><span class="text-[10px] align-super">™</span>
+                        Mistly<span class="text-blue-800">Fans</span><span class="text-[10px] align-super">™</span>
                     </span>
                 </div>
             </div>
@@ -97,7 +97,8 @@
     <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] bg-slate-900 text-white px-5 py-2.5 rounded-full shadow-xl text-sm font-medium transition-all duration-300 opacity-0 pointer-events-none translate-y-10">Message</div>
 
     <main class="flex-grow">
-        <section id="view-home" class="view-panel transition-opacity duration-300">
+        <!-- ===== HOME VIEW ===== -->
+        <section id="view-home" class="view-panel">
             <div class="max-w-7xl mx-auto px-5 py-8 md:py-12">
 
                 <!-- HERO SECTION -->
@@ -105,7 +106,6 @@
                     <h1 class="text-3xl md:text-5xl font-black leading-tight">High Performance<br>Misting Fans.</h1>
                     <p class="text-slate-300 text-lg mt-3 max-w-xl">Experience Mister Pro Mini — pocket-sized, premium mist cooling.</p>
 
-                    <!-- Product image for mobile (visible only on small screens) -->
                     <img src="Products/pr1.png" alt="Mister Pro Mini" class="w-40 h-40 object-contain rounded-2xl mt-6 md:hidden" onerror="this.style.display='none'">
 
                     <button onclick="navigateTo('shop')" class="mt-6 bg-[#ec4899] hover:bg-pink-700 text-white rounded-full px-6 py-3 font-bold transition flex items-center gap-2 relative z-10">
@@ -113,11 +113,10 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </button>
 
-                    <!-- Product image for desktop (now larger, with comfortable blue margin) -->
                     <img src="Products/pr1.png" alt="Mister Pro Mini" class="hidden md:block absolute bottom-6 right-6 w-56 h-56 md:w-64 md:h-64 object-contain rounded-2xl cursor-pointer hover:scale-105 transition-transform z-10" onerror="this.style.display='none'">
                 </div>
 
-                <!-- Video Carousel -->
+                <!-- Video Carousel (stars visible) -->
                 <div class="mt-20 border-t border-slate-100 pt-16">
                     <div class="text-center mb-10">
                         <h3 class="text-2xl md:text-3xl font-black text-slate-900 mt-3">See it in action</h3>
@@ -150,7 +149,11 @@
                                     <div class="absolute bottom-0 left-0 right-0 p-4 text-white z-10 pointer-events-none">
                                         <div class="flex items-center gap-2 mb-1.5">
                                             <div class="flex text-amber-400 gap-0.5">
-                                                <!-- Stars -->
+                                                <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                                <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                                <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                                <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                                <svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                                             </div>
                                             <span class="text-[9px] font-bold bg-white/20 px-1.5 py-0.5 rounded text-white">4.9</span>
                                         </div>
@@ -232,8 +235,8 @@
             </div>
         </section>
 
-        <!-- Shop View -->
-        <section id="view-shop" class="view-panel hidden transition-opacity duration-300">
+        <!-- ===== SHOP VIEW ===== -->
+        <section id="view-shop" class="view-panel hidden">
             <div class="max-w-7xl mx-auto px-5 py-8 lg:py-12">
                 <div class="mb-12 text-center lg:text-center">
                     <h2 class="text-3xl lg:text-4xl font-black text-slate-900">Shop Essentials</h2>
@@ -243,8 +246,8 @@
             </div>
         </section>
 
-        <!-- Support View -->
-        <section id="view-support" class="view-panel hidden transition-opacity duration-300">
+        <!-- ===== SUPPORT VIEW ===== -->
+        <section id="view-support" class="view-panel hidden">
             <div class="max-w-3xl mx-auto px-5 py-12 md:py-16">
                 <div class="text-center mb-10">
                     <span class="text-xs font-bold text-cyan-600 bg-cyan-50 px-3 py-1.5 rounded-full">Contact Us</span>
@@ -268,19 +271,66 @@
                 </div>
             </div>
         </section>
+
+        <!-- ===== SECURE CHECKOUT VIEW (minimal header – only back button) ===== -->
+        <section id="view-checkout" class="view-panel hidden">
+            <div class="min-h-screen bg-white">
+                <!-- Simple back button -->
+                <div class="pt-6 px-6">
+                    <button onclick="goBackFromCheckout()" class="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-black transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                        Back
+                    </button>
+                </div>
+
+                <!-- Checkout content -->
+                <main class="flex items-start justify-center p-6">
+                    <div class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-2xl mt-4">
+                        <div class="flex items-center justify-center gap-2 mb-2">
+                            <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                            <h1 class="text-3xl font-black text-slate-900">Secure Checkout</h1>
+                        </div>
+                        <p class="text-slate-500 text-sm text-center mb-8">Complete your order</p>
+
+                        <div id="amount-display" class="text-center mb-6">
+                            <span class="text-2xl font-bold text-slate-800">Total: $<span id="amount-value">0.00</span></span>
+                        </div>
+
+                        <form id="payment-form">
+                            <h3 class="font-semibold text-sm mb-2">Shipping Address</h3>
+                            <div id="address-element" class="mb-4"></div>
+
+                            <h3 class="font-semibold text-sm mb-2">Payment Details</h3>
+                            <div id="payment-element" class="mb-4"></div>
+
+                            <button id="submit-btn" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 rounded-full transition shadow-lg text-sm uppercase tracking-wide disabled:opacity-50 mt-4" disabled>
+                                Pay Now
+                            </button>
+                            <div id="error-message" class="text-red-500 text-xs mt-2 text-center"></div>
+                        </form>
+                    </div>
+                </main>
+
+                <footer class="text-center text-slate-400 text-xs py-6">
+                    <p>© 2026 Mistly Fans. Secure payment powered by Stripe</p>
+                </footer>
+            </div>
+        </section>
     </main>
 
-    <!-- Footer -->
+    <!-- Footer (global) -->
     <footer class="bg-slate-950 text-white mt-16 py-10">
         <div class="max-w-7xl mx-auto px-5 text-center text-slate-400 text-xs">
             <p>© 2026 Mistly Fans.</p>
         </div>
     </footer>
 
-    <!-- Cart Overlay & Drawer -->
+    <!-- Cart Drawer -->
     <div id="cart-drawer-overlay" onclick="toggleCartDrawer(false)" class="fixed inset-0 bg-black/40 z-40 hidden opacity-0 transition-opacity duration-300"></div>
     <aside id="cart-drawer" class="fixed top-0 right-0 h-screen w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
-        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between flex-shrink-0">
             <div class="flex items-center gap-2">
                 <svg class="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 1.5M17 13l1.5 1.5M9 21h6M10 17h4"/></svg>
                 <h3 class="text-lg font-bold text-slate-800">Your Cart</h3>
@@ -299,25 +349,14 @@
                 <div id="cart-items-list" class="space-y-4"></div>
             </div>
         </div>
-        <!-- Stripe Elements Checkout Form (scrollable inside cart-items-container for smaller screens) -->
-        <div class="p-5 bg-slate-50 border-t border-slate-100">
+        <div class="p-5 bg-slate-50 border-t border-slate-100 flex-shrink-0">
             <div class="flex justify-between font-semibold text-slate-800 text-sm mb-4">
                 <span>Subtotal</span>
                 <span id="cart-total">$0.00</span>
             </div>
-            <div id="checkout-form-container" class="w-full">
-                <form id="payment-form" class="hidden">
-                    <h3 class="font-semibold text-sm mb-2">Shipping Address</h3>
-                    <div id="address-element" class="mb-4"></div>
-                    <h3 class="font-semibold text-sm mb-2">Payment Details</h3>
-                    <div id="payment-element" class="mb-4"></div>
-                    <button id="submit-btn" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 rounded-full transition shadow-lg text-sm uppercase tracking-wide disabled:opacity-50" disabled>
-                        Pay Now
-                    </button>
-                    <div id="error-message" class="text-red-500 text-xs mt-2 text-center"></div>
-                </form>
-                <p id="checkout-placeholder" class="text-center text-slate-500 text-sm">Add items to proceed</p>
-            </div>
+            <button id="checkout-btn" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 rounded-full transition shadow-lg text-sm uppercase tracking-wide disabled:opacity-50" disabled>
+                Pay Now
+            </button>
         </div>
     </aside>
 
@@ -339,7 +378,7 @@
             { name: "Chloe P.", text: "Fast shipping indeed. Arrived super fast!" }
         ];
 
-        let currentVideoIndex = 2; // Start with pr-review3 as center
+        let currentVideoIndex = 2;
         const videoLeft = document.getElementById('video-left');
         const videoCenter = document.getElementById('video-center');
         const videoRight = document.getElementById('video-right');
@@ -459,7 +498,7 @@
                     <div class="bg-white p-4 rounded-2xl border border-slate-100 flex flex-col justify-between shadow-sm">
                         <div>
                             <div class="flex text-amber-400 gap-0.5 mb-2.5">
-                                ${Array(5).fill('<svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>').join('')}
+                                ${Array(5).fill('<svg class="w-3 h-3 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>').join('')}
                             </div>
                             <p class="text-xs text-slate-600 italic">"${review.text}"</p>
                         </div>
@@ -484,7 +523,7 @@
         }];
 
         let cart = [];
-        let productGrid, cartItemsContainer, cartItemsList, emptyCartMessage, cartFilledContent, cartBadgeHeader, cartTotalSpan;
+        let productGrid, cartItemsContainer, cartItemsList, emptyCartMessage, cartFilledContent, cartBadgeHeader, cartTotalSpan, checkoutBtn;
 
         function toggleCartDrawer(open) {
             const drawer = document.getElementById('cart-drawer');
@@ -541,6 +580,7 @@
                     cartBadgeHeader.innerText = '0';
                 }
                 if (cartTotalSpan) cartTotalSpan.innerText = '$0.00';
+                checkoutBtn.disabled = true;
             } else {
                 emptyCartMessage.classList.add('hidden');
                 cartFilledContent.classList.remove('hidden');
@@ -573,9 +613,8 @@
                     cartBadgeHeader.innerText = totalUnits;
                     cartBadgeHeader.classList.remove('hidden');
                 }
-            }
-            if (typeof initializeStripeElements === 'function') {
-                initializeStripeElements();
+                checkoutBtn.disabled = false;
+                window.currentSubtotal = subtotal.toFixed(2);
             }
         }
 
@@ -637,7 +676,7 @@
             }
         };
 
-        // Navigation & mobile menu
+        // ========== NAVIGATION ==========
         let currentView = 'home';
         function navigateTo(viewName) {
             currentView = viewName;
@@ -646,8 +685,17 @@
             if (target) target.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             closeMobileMenu();
+            if (viewName !== 'checkout' && elements) {
+                if (addressElement) addressElement.unmount();
+                if (paymentElement) paymentElement.unmount();
+                elements = null;
+                addressElement = null;
+                paymentElement = null;
+                clientSecret = null;
+            }
         }
 
+        // ========== MOBILE MENU ==========
         const mobileMenu = document.getElementById('mobile-menu');
         const menuBtnContainer = document.getElementById('menu-button-container');
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -680,26 +728,34 @@
             mobileMenu.addEventListener('mouseleave', () => { closeTimeout = setTimeout(closeMobileMenu, 350); });
         }
 
-        // ========== STRIPE ELEMENTS INTEGRATION ==========
+        // ========== CHECKOUT LOGIC ==========
         const stripe = Stripe('pk_live_51Tg73MLPY8OdCEfEmm3Iye3yPWK53AsKlziuyKtZce6TKjbqjKHgolcrjiDyhfWbtDhJzK6ceHoOGJFClAoEUhHo00W9bI5wfz');
-        let elements, paymentElement, addressElement;
-        let clientSecret = null;
+        let elements = null, paymentElement = null, addressElement = null, clientSecret = null;
 
         const paymentForm = document.getElementById('payment-form');
         const submitBtn = document.getElementById('submit-btn');
         const errorDiv = document.getElementById('error-message');
-        const checkoutPlaceholder = document.getElementById('checkout-placeholder');
 
-        async function initializeStripeElements() {
+        async function initializeCheckout() {
+            if (!submitBtn) return;
             submitBtn.disabled = true;
 
-            const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-            const amountInCents = Math.round(subtotal * 100);
+            const amount = parseFloat(window.currentSubtotal || '0');
+            const amountInCents = Math.round(amount * 100);
 
-            if (amountInCents === 0) {
-                checkoutPlaceholder.classList.remove('hidden');
-                paymentForm.classList.add('hidden');
+            if (amountInCents <= 0) {
+                document.getElementById('amount-value').textContent = '0.00';
                 return;
+            }
+            document.getElementById('amount-value').textContent = amount.toFixed(2);
+
+            if (elements) {
+                if (addressElement) addressElement.unmount();
+                if (paymentElement) paymentElement.unmount();
+                elements = null;
+                addressElement = null;
+                paymentElement = null;
+                clientSecret = null;
             }
 
             try {
@@ -712,14 +768,10 @@
                 if (data.error) throw new Error(data.error);
                 clientSecret = data.clientSecret;
             } catch (err) {
-                errorDiv.textContent = 'Payment service temporarily unavailable.';
+                errorDiv.textContent = 'Payment service temporarily unavailable. Please try again later.';
                 return;
             }
 
-            if (elements) {
-                if (addressElement) addressElement.unmount();
-                if (paymentElement) paymentElement.unmount();
-            }
             elements = stripe.elements({ clientSecret });
 
             addressElement = elements.create('address', { mode: 'shipping' });
@@ -728,8 +780,6 @@
             paymentElement = elements.create('payment');
             paymentElement.mount('#payment-element');
 
-            checkoutPlaceholder.classList.add('hidden');
-            paymentForm.classList.remove('hidden');
             submitBtn.disabled = false;
 
             paymentForm.addEventListener('submit', async (e) => {
@@ -748,7 +798,21 @@
                     errorDiv.textContent = error.message;
                     submitBtn.disabled = false;
                 }
-            }, { once: true });
+            });
+        }
+
+        function goToSecureCheckout() {
+            // Close the cart drawer first
+            toggleCartDrawer(false);
+            // Then navigate to checkout view
+            navigateTo('checkout');
+            setTimeout(initializeCheckout, 100);
+        }
+
+        function goBackFromCheckout() {
+            navigateTo('home');
+            // Re-open the cart so user can review items
+            toggleCartDrawer(true);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -759,12 +823,14 @@
             cartFilledContent = document.getElementById('cart-filled-content');
             cartBadgeHeader = document.getElementById('cart-badge-header');
             cartTotalSpan = document.getElementById('cart-total');
-            
+            checkoutBtn = document.getElementById('checkout-btn');
+
+            checkoutBtn.addEventListener('click', goToSecureCheckout);
+
             renderCatalog();
             renderReviews();
             cart = [];
             updateCartUI();
-            initializeStripeElements();
 
             updateCarouselVideos();
             initSwipe();
